@@ -1,0 +1,34 @@
+
+Title: Working with DNA sequences and features in R with Bioconductor
+
+Level: intermediate
+
+Duration: 3 hours
+
+Student numbers: 35
+
+Workshop description:
+
+Bioconductor is a repository of R packages devoted to working with large biological data-sets. This workshop explores one particular aspect of Bioconductor, working with DNA sequences such as chromosomes, and features in them such as genes and transcripts and locations of interest discovered by experiments. We will explore manipulating these types of data and relating them to existing genome annotations.
+
+This workshop aims to get attendees past some initial stumbling points people encounter working with Bioconductor packages. Bioconductor differs from the "tidy" approach we teach in our introductory R workshop. Rather than everything being a data frame, many specialized types of data are used.
+
+Some exposure to the R language is assumed, for example from attending the Data Fluency "Introduction to R" workshop. Attendees should also be familiar with the concepts of DNA transcription, and RNA splicing and translation.
+
+Attendees will need to bring a laptop and charger. The only required software is a web browser.
+
+
+Learning outcomes:
+
+Attendees will learn how to:
+
+* Install Bioconductor packages in R.
+* Find relevant Bioconductor documentation.
+* Load data in formats such as FASTA and GFF into R.
+* Work with Bioconductor's "S4" type objects.
+* Manipulate DNA sequences.
+* Manipulate genomic ranges, such as finding overlaps between two sets of ranges.
+* Retrieve genomes, genome annotations, and gene information, and relate data to these.
+
+Keywords: R, Bioconductor, Bioinformatics, DNA, gene
+
