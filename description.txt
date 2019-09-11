@@ -25,7 +25,7 @@ Attendees will learn how to:
 * Install Bioconductor packages in R.
 * Find relevant Bioconductor documentation.
 * Load data in formats such as FASTA and GFF into R.
-* Work with Bioconductor's "S4" type objects.
+* Work with Bioconductor's "S4" objects.
 * Manipulate DNA sequences.
 * Manipulate genomic ranges, such as finding overlaps between two sets of ranges.
 * Retrieve genomes, genome annotations, and gene information, and relate data to these.

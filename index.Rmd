@@ -1,0 +1,49 @@
+---
+title: "Working with DNA sequences and features in R with Bioconductor"
+output: 
+    html_document:
+        theme: cerulean
+        css: style.css
+---
+
+## Workshop notes
+
+* [Slideshow](slides/slides.html)
+* [Workshop](topics/sequences_and_features.html)
+
+## Setup
+
+This workshop is designed to work with [RStudio Cloud](https://rstudio.cloud/). Go to https://rstudio.cloud/ (Monash users can log in with their Monash google account) and create a new project. The workshop can also be done using R locally on your laptop (if doing this, we also recommend you create a new project to contain the files).
+
+Running the R code below will download files and install packages used in this workshop.
+
+```{r eval=FALSE}
+# Download data
+download.file(
+  "https://monashdatafluency.github.io/r-bioc/r-bioc-files.zip",
+  destfile="r-bioc-files.zip")
+unzip("r-bioc-files.zip")
+
+# Install some CRAN packages:
+install.packages(c("tidyverse", "BiocManager"))
+
+# Install some Bioconductor packages:
+BiocManager::install(c("Biostrings", "BSgenome", "GenomicRanges", "rtracklayer", "seqLogo", "motifRG"))
+```
+
+
+## Author
+
+This course has been developed for the [Monash Bioinformatics Platform](https://www.monash.edu/researchinfrastructure/bioinformatics) and [Monash Data Fluency](https://www.monash.edu/data-fluency) by Paul Harrison.
+
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="figures/CC-BY.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+
+## Source code
+
+* [GitHub repository](https://github.com/MonashDataFluency/r-bioc)
+
+<p style="margin-top: 5em; text-align: right">
+<a href="https://www.monash.edu/researchinfrastructure/bioinformatics"><img src="figures/MBP-banner.png" width="675"></a>
+</p>
+
+

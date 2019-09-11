@@ -1,0 +1,40 @@
+
+This should be a 3 hour workshop.
+
+Mention relevant events such as BioInfoSummer, COMBINE events.
+
+
+
+# Things to mention during the slideshow:
+
+R has 4 decades of history.
+
+Tidyverse is a set of modern packages.
+
+Tidyverse is easy to pick up, has made R much more widely accessible. Key concepts are tidy data and pipelines.
+
+Bioconductor is a separate package repository from CRAN (the usual package repository).
+
+Bioconductor packages are for dealing with biological data efficiently. Bioconductor is not tidy. Expect to have to work a little harder to make use of these.
+
+---
+
+Too many uses to count, ask a different person and get a different list.
+
+50% of bioinformatics is read this file format, wrangle, write other file format.
+
+Often used in combination with command-line software (eg read aligner).
+
+---
+
+matrix is another tabular data type from base R. Conceptually, each cell is an observation, rather than each row as in a tidy data frame.
+
+The rest are Bioconductor types. Note the use of CamelCase, this is typical in Bioconductor. Tidyverse separates words with underscores, and base R uses dots!
+
+Bioconductor has evolved over time to cope with more complex data.
+
+---
+
+Aim for this session is to cover fundamentals of Bioconductor, so you can look up the package you need for your particular task and understand how to use it.
+
+

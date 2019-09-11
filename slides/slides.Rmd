@@ -1,0 +1,111 @@
+---
+title: "Working with DNA sequences and features in R with Bioconductor"
+output: 
+    ioslides_presentation:
+        widescreen: true
+        smaller: true
+        css: style.css
+---
+
+## Flavours of R
+
+### Base R
+
+Functions and types that are always available in R.
+
+### CRAN packages
+
+"Comprehensive R Archive Network" - main source of R packages
+
+```{r eval=F}
+# Example
+install.packages("glmnet")
+install.packages("tidyverse")
+```
+
+### Bioconductor
+
+```{r eval=F}
+# Setup
+install.packages("BiocManager")
+
+# Install a Bioconductor package
+BiocManager::install("limma")
+
+# Check for out-of-date packages
+BiocManager::install()
+```
+
+
+## What Bioconductor is for
+
+**Differential expression analysis from microarray or RNA-seq**
+
+* `limma`, `edgeR`, `DESeq2`, ...
+* Further packages to normalize, impute, batch correct, check quality, ...
+
+**Visualization**
+
+* `ComplexHeatmap`, `Gviz`, `ggbio`, ...
+
+**Peaks, regions, motifs in genome** (eg for ChIP-seq, ATAC-seq)
+
+* `GenomicRanges`, `GenomicFeatures`, ...
+
+**Single-cell sequencing**
+
+**Statistical methods for $p \gg n$ data**
+
+...
+
+
+
+## More types
+
+Can do a lot in R with vectors and data frames.
+
+To use Bioconductor, several further types are important.
+
+* `matrix`
+
+* `DNAString`, `DNAStringSet`
+
+* `GRanges`
+
+* Others: `SeqInfo`, `TxDb`, `EnsDb`, `OrgDb`, `SummarizedExperiment`, `DelayedArray`, ...
+
+## Getting reference data
+
+Analysis usually occurs in the context of:
+
+* a genome assembly: DNA sequences of chromosomes 
+    * `DNAStringSet`, or `BSgenome` or `TwoBitFile`
+* gene annotations: strand, ranges of positions in chromosome
+    * `TxDb` or `EnsDb`
+
+<img src="../figures/igv.png" width="1000">
+
+
+## Getting reference data
+
+* `AnnotationHub` package can download reference data from various sources
+    * access specific versions, good for reproducibility
+* `import` function from `rtracklayer` package to load files
+* `biomaRt` to access BioMart servers
+* Data packages 
+
+
+## Documentation and help
+
+Most packages have "vignettes" explaining normal usage, available from within R or on Bioconductor website.
+
+Information about types available with, eg:
+
+```{r eval=F}
+?"GRanges-class"
+```
+
+Bioconductor support site
+
+    https://support.bioconductor.org/
+

@@ -1,6 +1,12 @@
 *.Rproj
 *.sublime*
 *_cache
+*_files
+fg.fa
+bg.fa
+motif-matches.gff
+html
+
 
 # History files
 .Rhistory
