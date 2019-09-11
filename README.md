@@ -1,5 +1,3 @@
 # r-bioc
 
-Working with DNA sequences and features in R with Bioconductor.
-
-
+https://monashdatafluency.github.io/r-bioc/

@@ -438,8 +438,8 @@ download.file(
   destfile=&quot;r-bioc-files.zip&quot;)
 unzip(&quot;r-bioc-files.zip&quot;)
 
-# Install some CRAN packages:
-install.packages(c(&quot;tidyverse&quot;, &quot;BiocManager&quot;))
+# Install BiocManager package from CRAN:
+install.packages(&quot;BiocManager&quot;)
 
 # Install some Bioconductor packages:
 BiocManager::install(c(&quot;Biostrings&quot;, &quot;BSgenome&quot;, &quot;GenomicRanges&quot;, &quot;rtracklayer&quot;, &quot;seqLogo&quot;, &quot;motifRG&quot;))</code></pre>

@@ -59,7 +59,6 @@ BiocManager::install()
 ...
 
 
-
 ## More types
 
 Can do a lot in R with vectors and data frames.
@@ -73,6 +72,29 @@ To use Bioconductor, several further types are important.
 * `GRanges`
 
 * Others: `SeqInfo`, `TxDb`, `EnsDb`, `OrgDb`, `SummarizedExperiment`, `DelayedArray`, ...
+
+
+## Command-line bioinformatics software
+
+Not all bioinformatics software is an R package!
+
+R's role will often be to massage your data into the form needed for command line tools, or to examine a tool's output.
+
+<br>
+
+One way to install command-line software is using the Conda package manager:
+
+* [Install miniconda](https://docs.conda.io/en/latest/miniconda.html)
+* Use the [bioconda](https://anaconda.org/bioconda) channel
+
+```
+# Example
+conda install -c bioconda meme
+```
+
+* Can be used on your own computer, or on a server or cluster.
+* Doesn't need admin rights.
+
 
 ## Getting reference data
 
