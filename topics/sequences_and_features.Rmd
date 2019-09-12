@@ -8,6 +8,8 @@ output:
     toc_float: true
     theme: cerulean
     css: ../style.css
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r echo=FALSE}
@@ -48,10 +50,11 @@ vignette("BiostringsQuickOverview", package="Biostrings")
 Load packages we will be using:
 
 ```{r warning=FALSE, message=FALSE}
-library(Biostrings)     # Provides DNAString, DNAStringSet, etc
-library(BSgenome)       # Provides getSeq()
-library(GenomicRanges)  # Provides GRanges, etc
-library(rtracklayer)    # Provides import() and export()
+library(Biostrings)      # Provides DNAString, DNAStringSet, etc
+library(BSgenome)        # Provides getSeq()
+library(GenomicRanges)   # Provides GRanges containing genomic ranges, etc
+library(GenomicFeatures) # Provides TxDb objects containing genes/transcripts/exons
+library(rtracklayer)     # Provides import() and export()
 ```
 
 
@@ -122,6 +125,7 @@ Accessing GRanges data:
 seqnames(range1)
 start(range1)
 end(range1)
+width(range1)
 strand(range1)
 as.data.frame(range1)
 ```
@@ -130,10 +134,10 @@ as.data.frame(range1)
 Further manipulations:
 
 ```{r}
-# GRanges are sometimes like vectors:
+# GRanges are like vectors:
 c(range1, range2)
 
-# GRanges can have metadata columns, so they are also like data frames:
+# GRanges can have metadata columns, and are often used like data frames:
 mcols(range1)$wobble <- 10
 range1
 mcols(range1)
@@ -212,13 +216,39 @@ Genome annotations are available in a variety of text formats such as GFF3 and G
 features <- import("r-bioc-files/Escherichia_coli_k_12.GCA_000800765.1.29.gtf")
 
 # Optional: just retain the columns of metadata we need
-mcols(features) <- mcols(features)[,c("type","gene_name","gene_id")]
+mcols(features) <- mcols(features)[,c("type","gene_name","gene_id","transcript_id","exon_id")]
 
 features
 ```
 
 Conversely, a GRanges can be written to a file with `export`.
 
+
+## Seqinfo and genome versions
+
+Various objects have associated Seqinfo information. This allows some extra sanity checking, and is also necessary for some tasks.
+
+```{r}
+seqinfo(features)
+seqinfo(seqs)
+
+myseqinfo <- seqinfo(seqs)
+isCircular(myseqinfo) <- c(TRUE)
+
+seqinfo(features) <- myseqinfo
+```
+
+For model organisms, one thing you need to care about is the genome version. We often refer to genome versions by their name in the [UCSC genome browser](https://genome.ucsc.edu/). For example the two most recent versions of the human genome are "hg19" from 2009 and "hg38" from 2013.
+
+```{r}
+Seqinfo(genome="hg19")
+Seqinfo(genome="hg38")
+```
+
+Notice the slightly different chromosome lengths! Features from one genome version will not be correctly located on a different genome version.
+
+
+## Getting sequences
 
 We can use these annotations to grab sequences from the genome.
 
@@ -299,6 +329,7 @@ translate(seq_stop)
 
 ```{r eval=FALSE}
 ?"inter-range-methods"
+?"nearest-methods"
 ?"setops-methods"
 ```
 
@@ -319,11 +350,8 @@ With `findOverlaps`, we can use genomic location as the key when *joining* dispa
 `GenomicRanges` also provides:
 
 * `range` - get a feature that spans from the start to the end of all features in a `GRanges`.
-
 * `reduce` - merge overlapping features, so that the same bases are covered by a reduced collection of features.
-
 * `disjoin` - as with reduce, but broken at each start and end of the input features.
-
 * `setdiff` - subtracts one set of features from another, could be used with range on a set of exons to get introns. Might need to use `GenomicRanges::setdiff` if also using `dplyr`.
 
 ```
@@ -358,14 +386,64 @@ cds <- subset(features, type == "CDS")
 
 Hint: Use `flank()` and `resize()` to manipulate these ranges.
 
+Hint: Use `table()` to count occurrences of different strings.
 
-# Further data types to explore
 
-**GRangesList, etc**: Many Bioconductor types have a List version -- `GRangesList`, `DNAStringSetList`, etc. For example the exons of a collection of genes could be naturally stored in a `GRangesList`. Most functions that work with `GRanges` will also worked with `GRangesList`, and operate on each list element separately.
+# Transcript database objects
 
-**TxDb**: `TxDb` objects represent the hierarchy of genes which contain transcripts which contain exons and CDS (CoDing Sequence) ranges. `TxDb` objects are provided by the `GenomicFeatures` package.
+We've been using our genomic features as one big unstructured GRanges. This is messy. Furthermore, eukaryote genes contain exons and introns, introducing complications not seen in bacteria.
 
-**Seqinfo**: `GRanges` (and various other types) may have associated sequence information accessed with `seqinfo()`. This contains the names and lengths of the sequences the ranges may refer to, and whether they are circular. It allows for some error checking if present.
+Let's look at the features associated with the gene "lacY".
+
+```{r}
+subset(features, gene_name == "lacY")
+```
+
+Look at the different types in the "type" column. Each "gene" may have multiple "transcript" features (isoforms). Each transcript in turn has a set of "exon" features, and if it is a protein coding gene, a set of "CDS" (coding sequence) features. The CDS features cover a subset of the bases covered by the exon features.
+
+```
+--------------------------------------------------> gene
+
+-------------------------------------------->       transcript
+---------->         --->    ---------------->       exon
+      ---->         --->    ---------->             CDS
+
+
+               -----------------------------------> transcript
+               -------->       ---->    ----------> exon
+                    --->       ---->    -->         CDS
+
+```
+
+
+```{r}
+txdb <- makeTxDbFromGRanges(features)
+txdb
+```
+
+`txdb` is a `TxDb` object. 
+
+```{r}
+genes(txdb)
+exonsBy(txdb, use.names=TRUE)
+cdsBy(txdb, use.names=TRUE)
+
+cds_ranges <- cdsBy(txdb, use.names=TRUE)
+cds_ranges$AIZ54182
+cds_ranges[[1]]
+unlist(cds_ranges)
+```
+
+`cds_ranges` is a `GRangesList`. That is, a list containing GRanges objects. As this is a bacteria, each transcript only has a single range, but in a eukaryote each transcript could consist of many ranges. To get the transcript sequence or the coding sequence, these each need to be retrieved and then concatenated together. `extractTranscriptSeqs` can do this for us.
+
+```{r}
+cds_seqs <- extractTranscriptSeqs(seqs, cds_ranges)
+
+table(subseq(cds_seqs, 1,3))
+table(subseq(cds_seqs, lengths(cds_seqs)-2,lengths(cds_seqs)))
+```
+
+There's much more to explore here. Have a look at the documentation for the `GenomicFeatures` and `ensembldb` packages. To annotate a set of genomic features such as peaks from a ChIP-seq experiment, see for example the  `ChIPseeker` package.
 
 
 # Finding a known motif
@@ -473,14 +551,9 @@ system("meme -dna -maxsize 1000000 fg.fa")
 ```
 
 
-# Next steps
 
-We've seen just the smallest part of what [Bioconductor](http://bioconductor.org/) has to offer in this space.
 
-* [Most downloaded Bioconctor packages](http://bioconductor.org/packages/stats/)
-* [Bioconductor cheat sheet](https://github.com/mikelove/bioc-refcard/blob/master/README.Rmd)
-* [COMBINE Bioconductor course from May 2017](https://combine-australia.github.io/2017-05-19-bioconductor-melbourne/)
-* [Bioconductor's Stack Overflow-style support site](https://support.bioconductor.org/)
+# Genome and annotation resources
 
 Besides software, Bioconductor includes packages with data for model organisms, for example. The data is generally from these central repositories:
 
@@ -490,33 +563,33 @@ Besides software, Bioconductor includes packages with data for model organisms, 
 
 These organizations will generally obtain genome assemblies from the same ultimate sources. For example, all of the above use the Genome Reference Consortium's GRCh38 DNA sequence for homo sapiens. UCSC likes to call this "hg38" but it is the same DNA sequence. These DNA sequences serve as a common frame of reference. However the three organizations above will differ on their exact set of gene and transcript annotations, and all use a different gene and transcript ID system. These annotations are also revised more often than the underlying DNA sequences.
 
-This mess is partly due to American/European rivalry, and partly due to differing goals. The UCSC genome browser has always been about practicality and showing many lines of evidence. The others are more concerned with careful curation and standardization.
-
 Some example packages:
 
-### BSgenome.Hsapiens.UCSC.hg38 
+## BSgenome.Hsapiens.UCSC.hg38 
 
 Biostrings genome, Homo sapiens, from the UCSC browser, version hg38.
 
 DNA for chromosomes, usable in the same way as the DNAStringSet used above.
 
-### TxDb.Hsapiens.UCSC.hg38.knownGene
+## TxDb.Hsapiens.UCSC.hg38.knownGene
 
 Transcript database, Homo sapiens, from UCSC browser, genome verison hg38, "knownGene" gene annotations.
 
 GRanges information for genes and transcripts, much as we loaded from a GTF file above.
 
-### org.Hs.eg.db
+## org.Hs.eg.db
 
 Organism Homo sapiens, primary key is Entrez Gene, database.
 
 Translation of gene ids from various databases, assignment to GO terms, KEGG pathways, etc. Entrez Gene ids are used as the primary key.
 
-### biomaRt 
+## biomaRt 
 
 Access to BioMart data, on the internet -- translation of gene ids, gene sets, gene information, etc.
 
-### AnnotationHub
+Beware replicability. BioMart servers are not guaranteed to be available forever, and BioMart doesn't have a clear story around versioning.
+
+## AnnotationHub
 
 AnnotationHub is a way to retrieve data from a more comprehensive set of organisms and data providers than the above styles of package. The retrieved data is returned in an appropriate Bioconductor type. If data is being updated over time (eg improved annotation of a genome), each version receives a unique ID in AnnotationHub, making it much easier to write reproducable analyses.
 
@@ -537,7 +610,7 @@ colnames( mcols(ah) )
 table( ah$rdataclass )
 
 # query() searches for terms in an unstructured way
-records <- query(ah, c("Ensembl", "85", "Saccharomyces cerevisiae"))
+records <- query(ah, c("Ensembl", "96", "Saccharomyces cerevisiae"))
 records
 
 mcols(records)
@@ -546,18 +619,19 @@ mcols(records)[,c("title","rdataclass")]
 # Having located records of interest,
 # your R script can refer to the specific AH... record,
 # so it always uses the same version of the data.
-ah[["AH51399"]]
-sc_genome <- import( ah[["AH51399"]] )
-sc_granges <- ah[["AH51088"]]
+sc_genome <- ah[["AH70449"]]
+sc_granges <- ah[["AH69700"]]
+sc_txdb <- ah[["AH69265"]]
 
-# More recent versions of Bioconductor also allow you to
-# retrieve TxDb (and similar EnsDb) objects.
+# sc_genome is a TwoBitFile
+# Can use getSeq on it without loading everything into memory
+seqinfo(sc_genome)
+getSeq(sc_genome, as("IV:1-10","GRanges"))
+import(sc_genome)
 
-
+# An OrgDb contains information about genes in an organism, and lets you map between different identifiers
 query(ah, c("OrgDb", "Saccharomyces cerevisiae"))
-sc_orgdb <- ah[["AH49589"]]
-
-# An OrgDb contains information about genes in an organism
+sc_orgdb <- ah[["AH70579"]]
 columns(sc_orgdb)
 head( keys(sc_orgdb, "ORF") )
 select(sc_orgdb, "YFL039C", c("GENENAME", "DESCRIPTION"), keytype="ORF")

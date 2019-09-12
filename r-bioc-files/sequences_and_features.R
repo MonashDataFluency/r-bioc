@@ -23,10 +23,11 @@ vignette("BiostringsQuickOverview", package="Biostrings")
 # __________________________________________
 # ==== DNA sequences and genomic ranges ====
 
-library(Biostrings)     # Provides DNAString, DNAStringSet, etc
-library(BSgenome)       # Provides getSeq()
-library(GenomicRanges)  # Provides GRanges, etc
-library(rtracklayer)    # Provides import() and export()
+library(Biostrings)      # Provides DNAString, DNAStringSet, etc
+library(BSgenome)        # Provides getSeq()
+library(GenomicRanges)   # Provides GRanges containing genomic ranges, etc
+library(GenomicFeatures) # Provides TxDb objects containing genes/transcripts/exons
+library(rtracklayer)     # Provides import() and export()
 
 
 ## ____________________
@@ -78,14 +79,15 @@ getSeq(myset, range2)
 seqnames(range1)
 start(range1)
 end(range1)
+width(range1)
 strand(range1)
 as.data.frame(range1)
 
 
-# GRanges are sometimes like vectors:
+# GRanges are like vectors:
 c(range1, range2)
 
-# GRanges can have metadata columns, so they are also like data frames:
+# GRanges can have metadata columns, and are often used like data frames:
 mcols(range1)$wobble <- 10
 range1
 mcols(range1)
@@ -161,10 +163,29 @@ names(seqs)
 features <- import("r-bioc-files/Escherichia_coli_k_12.GCA_000800765.1.29.gtf")
 
 # Optional: just retain the columns of metadata we need
-mcols(features) <- mcols(features)[,c("type","gene_name","gene_id")]
+mcols(features) <- mcols(features)[,c("type","gene_name","gene_id","transcript_id","exon_id")]
 
 features
 
+
+## ______________________________________
+## ----> Seqinfo and genome versions ----
+
+seqinfo(features)
+seqinfo(seqs)
+
+myseqinfo <- seqinfo(seqs)
+isCircular(myseqinfo) <- c(TRUE)
+
+seqinfo(features) <- myseqinfo
+
+
+Seqinfo(genome="hg19")
+Seqinfo(genome="hg38")
+
+
+## ____________________________
+## ----> Getting sequences ----
 
 feat <- features[4,]
 feat
@@ -219,6 +240,7 @@ translate(seq_stop)
 ## ----> Inter-range ----
 
 ?"inter-range-methods"
+?"nearest-methods"
 ?"setops-methods"
 
 
@@ -263,10 +285,48 @@ cds <- subset(features, type == "CDS")
 # 
 # Hint: Use `flank()` and `resize()` to manipulate these ranges.
 # 
+# Hint: Use `table()` to count occurrences of different strings.
+# 
 # 
 #
-# _______________________________________
-# ==== Further data types to explore ====
+# _____________________________________
+# ==== Transcript database objects ====
+
+subset(features, gene_name == "lacY")
+
+
+--------------------------------------------------> gene
+
+-------------------------------------------->       transcript
+---------->         --->    ---------------->       exon
+      ---->         --->    ---------->             CDS
+
+
+               -----------------------------------> transcript
+               -------->       ---->    ----------> exon
+                    --->       ---->    -->         CDS
+
+
+
+txdb <- makeTxDbFromGRanges(features)
+txdb
+
+
+genes(txdb)
+exonsBy(txdb, use.names=TRUE)
+cdsBy(txdb, use.names=TRUE)
+
+cds_ranges <- cdsBy(txdb, use.names=TRUE)
+cds_ranges$AIZ54182
+cds_ranges[[1]]
+unlist(cds_ranges)
+
+
+cds_seqs <- extractTranscriptSeqs(seqs, cds_ranges)
+
+table(subseq(cds_seqs, 1,3))
+table(subseq(cds_seqs, lengths(cds_seqs)-2,lengths(cds_seqs)))
+
 
 # _______________________________
 # ==== Finding a known motif ====
@@ -348,23 +408,23 @@ writeXStringSet(background_seqs, "bg.fa")
 system("meme -dna -maxsize 1000000 fg.fa")
 
 
-# ____________________
-# ==== Next steps ====
+# _________________________________________
+# ==== Genome and annotation resources ====
 
-### _______________________________________
-### ---->> BSgenome.Hsapiens.UCSC.hg38 ----
+## ______________________________________
+## ----> BSgenome.Hsapiens.UCSC.hg38 ----
 
-### _____________________________________________
-### ---->> TxDb.Hsapiens.UCSC.hg38.knownGene ----
+## ____________________________________________
+## ----> TxDb.Hsapiens.UCSC.hg38.knownGene ----
 
-### ________________________
-### ---->> org.Hs.eg.db ----
+## _______________________
+## ----> org.Hs.eg.db ----
 
-### ___________________
-### ---->> biomaRt ----
+## __________________
+## ----> biomaRt ----
 
-### _________________________
-### ---->> AnnotationHub ----
+## ________________________
+## ----> AnnotationHub ----
 
 library(AnnotationHub)
 ah <- AnnotationHub()
@@ -376,7 +436,7 @@ colnames( mcols(ah) )
 table( ah$rdataclass )
 
 # query() searches for terms in an unstructured way
-records <- query(ah, c("Ensembl", "85", "Saccharomyces cerevisiae"))
+records <- query(ah, c("Ensembl", "96", "Saccharomyces cerevisiae"))
 records
 
 mcols(records)
@@ -385,18 +445,19 @@ mcols(records)[,c("title","rdataclass")]
 # Having located records of interest,
 # your R script can refer to the specific AH... record,
 # so it always uses the same version of the data.
-ah[["AH51399"]]
-sc_genome <- import( ah[["AH51399"]] )
-sc_granges <- ah[["AH51088"]]
+sc_genome <- ah[["AH70449"]]
+sc_granges <- ah[["AH69700"]]
+sc_txdb <- ah[["AH69265"]]
 
-# More recent versions of Bioconductor also allow you to
-# retrieve TxDb (and similar EnsDb) objects.
+# sc_genome is a TwoBitFile
+# Can use getSeq on it without loading everything into memory
+seqinfo(sc_genome)
+getSeq(sc_genome, as("IV:1-10","GRanges"))
+import(sc_genome)
 
-
+# An OrgDb contains information about genes in an organism, and lets you map between different identifiers
 query(ah, c("OrgDb", "Saccharomyces cerevisiae"))
-sc_orgdb <- ah[["AH49589"]]
-
-# An OrgDb contains information about genes in an organism
+sc_orgdb <- ah[["AH70579"]]
 columns(sc_orgdb)
 head( keys(sc_orgdb, "ORF") )
 select(sc_orgdb, "YFL039C", c("GENENAME", "DESCRIPTION"), keytype="ORF")

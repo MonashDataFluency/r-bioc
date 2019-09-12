@@ -1582,10 +1582,11 @@ vignette(&quot;BiostringsQuickOverview&quot;, package=&quot;Biostrings&quot;)</c
 <div id="dna-sequences-and-genomic-ranges" class="section level1">
 <h1><span class="header-section-number">1</span> DNA sequences and genomic ranges</h1>
 <p>Load packages we will be using:</p>
-<pre class="r"><code>library(Biostrings)     # Provides DNAString, DNAStringSet, etc
-library(BSgenome)       # Provides getSeq()
-library(GenomicRanges)  # Provides GRanges, etc
-library(rtracklayer)    # Provides import() and export()</code></pre>
+<pre class="r"><code>library(Biostrings)      # Provides DNAString, DNAStringSet, etc
+library(BSgenome)        # Provides getSeq()
+library(GenomicRanges)   # Provides GRanges containing genomic ranges, etc
+library(GenomicFeatures) # Provides TxDb objects containing genes/transcripts/exons
+library(rtracklayer)     # Provides import() and export()</code></pre>
 <div id="dnastring" class="section level2">
 <h2><span class="header-section-number">1.1</span> DNAString</h2>
 <p>Package <code>Biostrings</code> offers classes for storing DNA strings, <code>DNAString</code>, amino acid sequences, <code>AAString</code>, or anything else in a <code>BString</code>. These are very like character strings, but a variety of biologically meaningful functions can be applied to them.</p>
@@ -1630,13 +1631,14 @@ getSeq(myset, range2)</code></pre>
 <pre class="r"><code>seqnames(range1)
 start(range1)
 end(range1)
+width(range1)
 strand(range1)
 as.data.frame(range1)</code></pre>
 <p>Further manipulations:</p>
-<pre class="r"><code># GRanges are sometimes like vectors:
+<pre class="r"><code># GRanges are like vectors:
 c(range1, range2)
 
-# GRanges can have metadata columns, so they are also like data frames:
+# GRanges can have metadata columns, and are often used like data frames:
 mcols(range1)$wobble &lt;- 10
 range1
 mcols(range1)
@@ -1696,10 +1698,28 @@ names(seqs)</code></pre>
 <pre class="r"><code>features &lt;- import(&quot;r-bioc-files/Escherichia_coli_k_12.GCA_000800765.1.29.gtf&quot;)
 
 # Optional: just retain the columns of metadata we need
-mcols(features) &lt;- mcols(features)[,c(&quot;type&quot;,&quot;gene_name&quot;,&quot;gene_id&quot;)]
+mcols(features) &lt;- mcols(features)[,c(&quot;type&quot;,&quot;gene_name&quot;,&quot;gene_id&quot;,&quot;transcript_id&quot;,&quot;exon_id&quot;)]
 
 features</code></pre>
 <p>Conversely, a GRanges can be written to a file with <code>export</code>.</p>
+</div>
+<div id="seqinfo-and-genome-versions" class="section level2">
+<h2><span class="header-section-number">2.3</span> Seqinfo and genome versions</h2>
+<p>Various objects have associated Seqinfo information. This allows some extra sanity checking, and is also necessary for some tasks.</p>
+<pre class="r"><code>seqinfo(features)
+seqinfo(seqs)
+
+myseqinfo &lt;- seqinfo(seqs)
+isCircular(myseqinfo) &lt;- c(TRUE)
+
+seqinfo(features) &lt;- myseqinfo</code></pre>
+<p>For model organisms, one thing you need to care about is the genome version. We often refer to genome versions by their name in the <a href="https://genome.ucsc.edu/">UCSC genome browser</a>. For example the two most recent versions of the human genome are “hg19” from 2009 and “hg38” from 2013.</p>
+<pre class="r"><code>Seqinfo(genome=&quot;hg19&quot;)
+Seqinfo(genome=&quot;hg38&quot;)</code></pre>
+<p>Notice the slightly different chromosome lengths! Features from one genome version will not be correctly located on a different genome version.</p>
+</div>
+<div id="getting-sequences" class="section level2">
+<h2><span class="header-section-number">2.4</span> Getting sequences</h2>
 <p>We can use these annotations to grab sequences from the genome.</p>
 <pre class="r"><code>feat &lt;- features[4,]
 feat
@@ -1750,6 +1770,7 @@ translate(seq_stop)</code></pre>
 <div id="inter-range" class="section level2">
 <h2><span class="header-section-number">3.2</span> Inter-range</h2>
 <pre class="r"><code>?&quot;inter-range-methods&quot;
+?&quot;nearest-methods&quot;
 ?&quot;setops-methods&quot;</code></pre>
 <p>One compelling feature of GenomicRanges is that it is able to find overlapping ranges very quickly.</p>
 <pre class="r"><code>query &lt;- as(&quot;Chromosome:9500-10000:+&quot;, &quot;GRanges&quot;)
@@ -1762,10 +1783,10 @@ findOverlaps(query, features, ignore.strand=FALSE)</code></pre>
 <p>With <code>findOverlaps</code>, we can use genomic location as the key when <em>joining</em> disparate types of data, so this is an important tool for <em>integrative</em> analysis. See also the related functions <code>nearest</code>, <code>precede</code>, <code>follow</code>, and <code>distance</code>.</p>
 <p><code>GenomicRanges</code> also provides:</p>
 <ul>
-<li><p><code>range</code> - get a feature that spans from the start to the end of all features in a <code>GRanges</code>.</p></li>
-<li><p><code>reduce</code> - merge overlapping features, so that the same bases are covered by a reduced collection of features.</p></li>
-<li><p><code>disjoin</code> - as with reduce, but broken at each start and end of the input features.</p></li>
-<li><p><code>setdiff</code> - subtracts one set of features from another, could be used with range on a set of exons to get introns. Might need to use <code>GenomicRanges::setdiff</code> if also using <code>dplyr</code>.</p></li>
+<li><code>range</code> - get a feature that spans from the start to the end of all features in a <code>GRanges</code>.</li>
+<li><code>reduce</code> - merge overlapping features, so that the same bases are covered by a reduced collection of features.</li>
+<li><code>disjoin</code> - as with reduce, but broken at each start and end of the input features.</li>
+<li><code>setdiff</code> - subtracts one set of features from another, could be used with range on a set of exons to get introns. Might need to use <code>GenomicRanges::setdiff</code> if also using <code>dplyr</code>.</li>
 </ul>
 <pre><code># input
 #         (--------)
@@ -1789,13 +1810,43 @@ findOverlaps(query, features, ignore.strand=FALSE)</code></pre>
 <p>Hint: Recall that we could get all CDS ranges with:</p>
 <pre class="r"><code>cds &lt;- subset(features, type == &quot;CDS&quot;)</code></pre>
 <p>Hint: Use <code>flank()</code> and <code>resize()</code> to manipulate these ranges.</p>
+<p>Hint: Use <code>table()</code> to count occurrences of different strings.</p>
 </div>
 </div>
-<div id="further-data-types-to-explore" class="section level1">
-<h1><span class="header-section-number">4</span> Further data types to explore</h1>
-<p><strong>GRangesList, etc</strong>: Many Bioconductor types have a List version – <code>GRangesList</code>, <code>DNAStringSetList</code>, etc. For example the exons of a collection of genes could be naturally stored in a <code>GRangesList</code>. Most functions that work with <code>GRanges</code> will also worked with <code>GRangesList</code>, and operate on each list element separately.</p>
-<p><strong>TxDb</strong>: <code>TxDb</code> objects represent the hierarchy of genes which contain transcripts which contain exons and CDS (CoDing Sequence) ranges. <code>TxDb</code> objects are provided by the <code>GenomicFeatures</code> package.</p>
-<p><strong>Seqinfo</strong>: <code>GRanges</code> (and various other types) may have associated sequence information accessed with <code>seqinfo()</code>. This contains the names and lengths of the sequences the ranges may refer to, and whether they are circular. It allows for some error checking if present.</p>
+<div id="transcript-database-objects" class="section level1">
+<h1><span class="header-section-number">4</span> Transcript database objects</h1>
+<p>We’ve been using our genomic features as one big unstructured GRanges. This is messy. Furthermore, eukaryote genes contain exons and introns, introducing complications not seen in bacteria.</p>
+<p>Let’s look at the features associated with the gene “lacY”.</p>
+<pre class="r"><code>subset(features, gene_name == &quot;lacY&quot;)</code></pre>
+<p>Look at the different types in the “type” column. Each “gene” may have multiple “transcript” features (isoforms). Each transcript in turn has a set of “exon” features, and if it is a protein coding gene, a set of “CDS” (coding sequence) features. The CDS features cover a subset of the bases covered by the exon features.</p>
+<pre><code>--------------------------------------------------&gt; gene
+
+--------------------------------------------&gt;       transcript
+----------&gt;         ---&gt;    ----------------&gt;       exon
+      ----&gt;         ---&gt;    ----------&gt;             CDS
+
+
+               -----------------------------------&gt; transcript
+               --------&gt;       ----&gt;    ----------&gt; exon
+                    ---&gt;       ----&gt;    --&gt;         CDS
+</code></pre>
+<pre class="r"><code>txdb &lt;- makeTxDbFromGRanges(features)
+txdb</code></pre>
+<p><code>txdb</code> is a <code>TxDb</code> object.</p>
+<pre class="r"><code>genes(txdb)
+exonsBy(txdb, use.names=TRUE)
+cdsBy(txdb, use.names=TRUE)
+
+cds_ranges &lt;- cdsBy(txdb, use.names=TRUE)
+cds_ranges$AIZ54182
+cds_ranges[[1]]
+unlist(cds_ranges)</code></pre>
+<p><code>cds_ranges</code> is a <code>GRangesList</code>. That is, a list containing GRanges objects. As this is a bacteria, each transcript only has a single range, but in a eukaryote each transcript could consist of many ranges. To get the transcript sequence or the coding sequence, these each need to be retrieved and then concatenated together. <code>extractTranscriptSeqs</code> can do this for us.</p>
+<pre class="r"><code>cds_seqs &lt;- extractTranscriptSeqs(seqs, cds_ranges)
+
+table(subseq(cds_seqs, 1,3))
+table(subseq(cds_seqs, lengths(cds_seqs)-2,lengths(cds_seqs)))</code></pre>
+<p>There’s much more to explore here. Have a look at the documentation for the <code>GenomicFeatures</code> and <code>ensembldb</code> packages. To annotate a set of genomic features such as peaks from a ChIP-seq experiment, see for example the <code>ChIPseeker</code> package.</p>
 </div>
 <div id="finding-a-known-motif" class="section level1">
 <h1><span class="header-section-number">5</span> Finding a known motif</h1>
@@ -1872,15 +1923,8 @@ writeXStringSet(background_seqs, &quot;bg.fa&quot;)</code></pre>
 <p>For example MEME (which doesn’t actually need background sequences):</p>
 <pre class="r"><code>system(&quot;meme -dna -maxsize 1000000 fg.fa&quot;)</code></pre>
 </div>
-<div id="next-steps" class="section level1">
-<h1><span class="header-section-number">7</span> Next steps</h1>
-<p>We’ve seen just the smallest part of what <a href="http://bioconductor.org/">Bioconductor</a> has to offer in this space.</p>
-<ul>
-<li><a href="http://bioconductor.org/packages/stats/">Most downloaded Bioconctor packages</a></li>
-<li><a href="https://github.com/mikelove/bioc-refcard/blob/master/README.Rmd">Bioconductor cheat sheet</a></li>
-<li><a href="https://combine-australia.github.io/2017-05-19-bioconductor-melbourne/">COMBINE Bioconductor course from May 2017</a></li>
-<li><a href="https://support.bioconductor.org/">Bioconductor’s Stack Overflow-style support site</a></li>
-</ul>
+<div id="genome-and-annotation-resources" class="section level1">
+<h1><span class="header-section-number">7</span> Genome and annotation resources</h1>
 <p>Besides software, Bioconductor includes packages with data for model organisms, for example. The data is generally from these central repositories:</p>
 <ul>
 <li>NCBI’s Entrez Gene gene database and Refseq reference sequences</li>
@@ -1888,29 +1932,29 @@ writeXStringSet(background_seqs, &quot;bg.fa&quot;)</code></pre>
 <li>The UCSC genome browser</li>
 </ul>
 <p>These organizations will generally obtain genome assemblies from the same ultimate sources. For example, all of the above use the Genome Reference Consortium’s GRCh38 DNA sequence for homo sapiens. UCSC likes to call this “hg38” but it is the same DNA sequence. These DNA sequences serve as a common frame of reference. However the three organizations above will differ on their exact set of gene and transcript annotations, and all use a different gene and transcript ID system. These annotations are also revised more often than the underlying DNA sequences.</p>
-<p>This mess is partly due to American/European rivalry, and partly due to differing goals. The UCSC genome browser has always been about practicality and showing many lines of evidence. The others are more concerned with careful curation and standardization.</p>
 <p>Some example packages:</p>
-<div id="bsgenome.hsapiens.ucsc.hg38" class="section level3">
-<h3><span class="header-section-number">7.0.1</span> BSgenome.Hsapiens.UCSC.hg38</h3>
+<div id="bsgenome.hsapiens.ucsc.hg38" class="section level2">
+<h2><span class="header-section-number">7.1</span> BSgenome.Hsapiens.UCSC.hg38</h2>
 <p>Biostrings genome, Homo sapiens, from the UCSC browser, version hg38.</p>
 <p>DNA for chromosomes, usable in the same way as the DNAStringSet used above.</p>
 </div>
-<div id="txdb.hsapiens.ucsc.hg38.knowngene" class="section level3">
-<h3><span class="header-section-number">7.0.2</span> TxDb.Hsapiens.UCSC.hg38.knownGene</h3>
+<div id="txdb.hsapiens.ucsc.hg38.knowngene" class="section level2">
+<h2><span class="header-section-number">7.2</span> TxDb.Hsapiens.UCSC.hg38.knownGene</h2>
 <p>Transcript database, Homo sapiens, from UCSC browser, genome verison hg38, “knownGene” gene annotations.</p>
 <p>GRanges information for genes and transcripts, much as we loaded from a GTF file above.</p>
 </div>
-<div id="org.hs.eg.db" class="section level3">
-<h3><span class="header-section-number">7.0.3</span> org.Hs.eg.db</h3>
+<div id="org.hs.eg.db" class="section level2">
+<h2><span class="header-section-number">7.3</span> org.Hs.eg.db</h2>
 <p>Organism Homo sapiens, primary key is Entrez Gene, database.</p>
 <p>Translation of gene ids from various databases, assignment to GO terms, KEGG pathways, etc. Entrez Gene ids are used as the primary key.</p>
 </div>
-<div id="biomart" class="section level3">
-<h3><span class="header-section-number">7.0.4</span> biomaRt</h3>
+<div id="biomart" class="section level2">
+<h2><span class="header-section-number">7.4</span> biomaRt</h2>
 <p>Access to BioMart data, on the internet – translation of gene ids, gene sets, gene information, etc.</p>
+<p>Beware replicability. BioMart servers are not guaranteed to be available forever, and BioMart doesn’t have a clear story around versioning.</p>
 </div>
-<div id="annotationhub" class="section level3">
-<h3><span class="header-section-number">7.0.5</span> AnnotationHub</h3>
+<div id="annotationhub" class="section level2">
+<h2><span class="header-section-number">7.5</span> AnnotationHub</h2>
 <p>AnnotationHub is a way to retrieve data from a more comprehensive set of organisms and data providers than the above styles of package. The retrieved data is returned in an appropriate Bioconductor type. If data is being updated over time (eg improved annotation of a genome), each version receives a unique ID in AnnotationHub, making it much easier to write reproducable analyses.</p>
 <p>AnnotationHub also provides access to experimental data which maps to locations on a genome, similar to the sorts of tracks you would load in the UCSC browser.</p>
 <p>Files are cached, so they will only be downloaded once.</p>
@@ -1925,7 +1969,7 @@ colnames( mcols(ah) )
 table( ah$rdataclass )
 
 # query() searches for terms in an unstructured way
-records &lt;- query(ah, c(&quot;Ensembl&quot;, &quot;85&quot;, &quot;Saccharomyces cerevisiae&quot;))
+records &lt;- query(ah, c(&quot;Ensembl&quot;, &quot;96&quot;, &quot;Saccharomyces cerevisiae&quot;))
 records
 
 mcols(records)
@@ -1934,18 +1978,19 @@ mcols(records)[,c(&quot;title&quot;,&quot;rdataclass&quot;)]
 # Having located records of interest,
 # your R script can refer to the specific AH... record,
 # so it always uses the same version of the data.
-ah[[&quot;AH51399&quot;]]
-sc_genome &lt;- import( ah[[&quot;AH51399&quot;]] )
-sc_granges &lt;- ah[[&quot;AH51088&quot;]]
+sc_genome &lt;- ah[[&quot;AH70449&quot;]]
+sc_granges &lt;- ah[[&quot;AH69700&quot;]]
+sc_txdb &lt;- ah[[&quot;AH69265&quot;]]
 
-# More recent versions of Bioconductor also allow you to
-# retrieve TxDb (and similar EnsDb) objects.
+# sc_genome is a TwoBitFile
+# Can use getSeq on it without loading everything into memory
+seqinfo(sc_genome)
+getSeq(sc_genome, as(&quot;IV:1-10&quot;,&quot;GRanges&quot;))
+import(sc_genome)
 
-
+# An OrgDb contains information about genes in an organism, and lets you map between different identifiers
 query(ah, c(&quot;OrgDb&quot;, &quot;Saccharomyces cerevisiae&quot;))
-sc_orgdb &lt;- ah[[&quot;AH49589&quot;]]
-
-# An OrgDb contains information about genes in an organism
+sc_orgdb &lt;- ah[[&quot;AH70579&quot;]]
 columns(sc_orgdb)
 head( keys(sc_orgdb, &quot;ORF&quot;) )
 select(sc_orgdb, &quot;YFL039C&quot;, c(&quot;GENENAME&quot;, &quot;DESCRIPTION&quot;), keytype=&quot;ORF&quot;)</code></pre>

@@ -13,7 +13,7 @@ output:
 
 Functions and types that are always available in R.
 
-### CRAN packages
+### CRAN (14,917 packages as at September 2019)
 
 "Comprehensive R Archive Network" - main source of R packages
 
@@ -23,7 +23,7 @@ install.packages("glmnet")
 install.packages("tidyverse")
 ```
 
-### Bioconductor
+### Bioconductor (1,741 packages as at September 2019)
 
 ```{r eval=F}
 # Setup
@@ -63,15 +63,26 @@ BiocManager::install()
 
 Can do a lot in R with vectors and data frames.
 
-To use Bioconductor, several further types are important.
+To use Bioconductor, familiarity with several further types are important.
 
-* `matrix`
-
+* `matrix`, `list`
 * `DNAString`, `DNAStringSet`
-
 * `GRanges`
+* Others: `SeqInfo`, `TxDb`, `EnsDb`, `OrgDb`, `VCF`, `SummarizedExperiment`, `DelayedArray`, ...
 
-* Others: `SeqInfo`, `TxDb`, `EnsDb`, `OrgDb`, `SummarizedExperiment`, `DelayedArray`, ...
+## S4 types
+
+Most base R packages use "S3" types. Data frames, tibbles, and linear model fits are examples of these.
+
+* if necessary, peek inside with `$`
+
+Bioconductor uses "S4" types, including it's own data frame (`DataFrame`) and list types (`SimpleList` and others). If necessary, can almost always convert to base R types with `as.data.frame`, `as.list`, `as.character`, etc.
+
+* use accessor functions such as `seqnames`, `start`, `end`, `width`, `nchars`
+* if absolutely necessary, peek inside with `@`
+
+<br>
+[Stuart Lee's guide to S4 for the perplexed](https://stuartlee.org/post/content/post/2019-07-09-s4-a-short-guide-for-perplexed/)
 
 
 ## Command-line bioinformatics software
@@ -96,7 +107,7 @@ conda install -c bioconda meme
 * Doesn't need admin rights.
 
 
-## Getting reference data
+## Reference genomes and annotations
 
 Analysis usually occurs in the context of:
 
@@ -105,29 +116,39 @@ Analysis usually occurs in the context of:
 * gene annotations: strand, ranges of positions in chromosome
     * `TxDb` or `EnsDb`
 
+For model organisms such as human and mouse, there is usually a genome assembly that is updated infrequently, and then several sets of gene annotations (Ensembl, RefSeq, UCSC, etc) which are updated much more frequently.
+
 <img src="../figures/igv.png" width="1000">
 
 
-## Getting reference data
+##
 
-* `AnnotationHub` package can download reference data from various sources
-    * access specific versions, good for reproducibility
-* `import` function from `rtracklayer` package to load files
-* `biomaRt` to access BioMart servers
-* Data packages 
+(Do workshop)
 
 
-## Documentation and help
+## Documentation
 
-Most packages have "vignettes" explaining normal usage, available from within R or on Bioconductor website.
+We've seen the smallest part of what Bioconductor has to offer.
 
-Information about types available with, eg:
+Have hopefully demystified Bioconductor sufficiently that you can find and make sense of documentation.
+
+* Find some useful packages
+* Read the vignettes
+* Browse the reference documentation
+* If you run into a funny class, check its documentation, work out the accessor functions, and in a pinch poke around its internals with `@` or try `as.data.frame`.
 
 ```{r eval=F}
 ?"GRanges-class"
+
+methods(class="GRanges")
 ```
 
-Bioconductor support site
+## Next steps
 
-    https://support.bioconductor.org/
+* [Most downloaded Bioconctor packages](http://bioconductor.org/packages/stats/)
+* [Mike Love's Bioconductor cheat sheet](https://github.com/mikelove/bioc-refcard/blob/master/README.Rmd)
+* [COMBINE Bioconductor course from May 2017](https://combine-australia.github.io/2017-05-19-bioconductor-melbourne/)
+* [plyranges](https://bioconductor.org/packages/release/bioc/html/plyranges.html) provides a "tidy" way of working with GRanges with many powerful features. The author is doing their PhD here at Monash. The vignette for this package is good value.
+* [Bioconductor's Stack Overflow-style support site](https://support.bioconductor.org/)
+
 

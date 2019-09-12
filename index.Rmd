@@ -28,7 +28,17 @@ unzip("r-bioc-files.zip")
 install.packages("BiocManager")
 
 # Install some Bioconductor packages:
-BiocManager::install(c("Biostrings", "BSgenome", "GenomicRanges", "rtracklayer", "seqLogo", "motifRG"))
+BiocManager::install(c(
+    "Biostrings", 
+    "BSgenome", 
+    "GenomicRanges", 
+    "GenomicFeatures", 
+    "ensembldb", 
+    "rtracklayer", 
+    "seqLogo", 
+    "motifRG", 
+    "AnnotationHub"
+))
 ```
 
 
