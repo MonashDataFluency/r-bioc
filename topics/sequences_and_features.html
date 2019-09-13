@@ -2101,7 +2101,7 @@ txdb</code></pre>
 ## # exon_nrow: 4258
 ## # cds_nrow: 4052
 ## # Db created by: GenomicFeatures package from Bioconductor
-## # Creation time: 2019-09-13 13:33:06 +1000 (Fri, 13 Sep 2019)
+## # Creation time: 2019-09-13 14:24:46 +1000 (Fri, 13 Sep 2019)
 ## # GenomicFeatures version at creation time: 1.36.4
 ## # RSQLite version at creation time: 2.1.2
 ## # DBSCHEMAVERSION: 1.2</code></pre>
@@ -2465,7 +2465,7 @@ results &lt;- findMotifFgBg(
 <p>There are many other motif finding programs available, outside of R. An alternative approach would be to construct the foreground and background sequences as above, then write them to FASTA files for use with an external program.</p>
 <pre class="r"><code>writeXStringSet(initiation_seqs, &quot;fg.fa&quot;)
 writeXStringSet(background_seqs, &quot;bg.fa&quot;)</code></pre>
-<p>For example MEME (which doesn’t actually need background sequences):</p>
+<p>For example <a href="http://meme-suite.org/">MEME</a> (which doesn’t actually need background sequences):</p>
 <pre class="r"><code>system(&quot;meme -dna -maxsize 1000000 fg.fa&quot;)</code></pre>
 <p>Running <code>meme</code> will produce <a href="meme_out/meme.html">this output</a>.</p>
 <pre class="r"><code>sessionInfo()</code></pre>

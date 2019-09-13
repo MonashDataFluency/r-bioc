@@ -620,7 +620,7 @@ writeXStringSet(initiation_seqs, "fg.fa")
 writeXStringSet(background_seqs, "bg.fa")
 ```
 
-For example MEME (which doesn't actually need background sequences):
+For example [MEME](http://meme-suite.org/) (which doesn't actually need background sequences):
 
 ```{r eval=FALSE}
 system("meme -dna -maxsize 1000000 fg.fa")
