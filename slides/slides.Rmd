@@ -7,6 +7,15 @@ output:
         css: style.css
 ---
 
+## Bioconductor
+
+Bioconductor is repository for R packages relating to high-throughput biology (shotgun sequencing, microarrays, etc).
+
+* Started in 2001, has developed alongside technology and growth of data
+* Core set of types promotes interoperation<br>(Not just tidy data frames! Types have evolved over time to meet new needs.)
+* Twice yearly release schedule
+* Many contributors, but fairly good coding and documentation standards
+
 ## Flavours of R
 
 ### Base R
@@ -18,7 +27,6 @@ Functions and types that are always available in R.
 "Comprehensive R Archive Network" - main source of R packages
 
 ```{r eval=F}
-# Example
 install.packages("glmnet")
 install.packages("tidyverse")
 ```
@@ -74,9 +82,11 @@ To use Bioconductor, familiarity with several further types are important.
 
 Most base R packages use "S3" types. Data frames, tibbles, and linear model fits are examples of these.
 
+* essentially lists
 * if necessary, peek inside with `$`
 
-Bioconductor uses "S4" types, including it's own data frame (`DataFrame`) and list types (`SimpleList` and others). If necessary, can almost always convert to base R types with `as.data.frame`, `as.list`, `as.character`, etc.
+<br>
+Bioconductor uses "S4" types, including it's own data frame (`DataFrame`) and list types (`SimpleList`, `GRangesList`, etc etc). If stuck, can almost always convert to base R types with `as.data.frame`, `as.list`, `as.character`, `as.numeric`.
 
 * use accessor functions such as `seqnames`, `start`, `end`, `width`, `nchars`
 * if absolutely necessary, peek inside with `@`

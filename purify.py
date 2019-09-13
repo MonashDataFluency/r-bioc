@@ -9,6 +9,7 @@ print()
 
 in_code = False
 in_challenge = False
+counts = [ ]
 for line in sys.stdin:
     line = line.rstrip()
     if line.startswith("```"):
@@ -22,12 +23,25 @@ for line in sys.stdin:
         in_challenge = "{.challenge}" in line
         if in_challenge:
             line = line.replace("{.challenge}","").rstrip()
+        #n = line.count("#")
+        #line = line[n:].strip()
+        #left = "#"*n+" "
+        #bracket = "----" if n > 1 else "===="
+        #print(left+"_"*(n-1+len(line)+len(bracket)*2+2))
+        #print(left+bracket+">"*(n-1)+" "+line+" "+bracket)
+
         n = line.count("#")
-        line = line[n:].strip()
-        left = "#"*n+" "
-        bracket = "----" if n > 1 else "===="
-        print(left+"_"*(n-1+len(line)+len(bracket)*2+2))
-        print(left+bracket+">"*(n-1)+" "+line+" "+bracket)
+        while n < len(counts): del counts[-1]
+        while n > len(counts): counts.append(0)
+        counts[-1] += 1
+
+        banner = "# "+".".join(str(i) for i in counts) + line[n:] + " ----"
+        if n == 1:
+            print()
+            print()
+            print("#"+"/"*(len(banner)-1))
+        print(banner)
+
     elif in_challenge:
         for line2 in textwrap.wrap(line) or [""]:
             print("# " + line2)

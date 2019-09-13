@@ -3140,7 +3140,18 @@ visibility: visible;
           </hgroup>
   </slide>
 
-<slide class=""><hgroup><h2>Flavours of R</h2></hgroup><article  class="smaller " id="flavours-of-r">
+<slide class=""><hgroup><h2>Bioconductor</h2></hgroup><article  class="smaller " id="bioconductor">
+
+<p>Bioconductor is repository for R packages relating to high-throughput biology (shotgun sequencing, microarrays, etc).</p>
+
+<ul>
+<li>Started in 2001, has developed alongside technology and growth of data</li>
+<li>Core set of types promotes interoperation<br>(Not just tidy data frames! Types have evolved over time to meet new needs.)</li>
+<li>Twice yearly release schedule</li>
+<li>Many contributors, but fairly good coding and documentation standards</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Flavours of R</h2></hgroup><article  class="smaller " id="flavours-of-r">
 
 <h3>Base R</h3>
 
@@ -3150,8 +3161,7 @@ visibility: visible;
 
 <p>&ldquo;Comprehensive R Archive Network&rdquo; - main source of R packages</p>
 
-<pre class = 'prettyprint lang-r'># Example
-install.packages(&quot;glmnet&quot;)
+<pre class = 'prettyprint lang-r'>install.packages(&quot;glmnet&quot;)
 install.packages(&quot;tidyverse&quot;)</pre>
 
 <h3>Bioconductor (1,741 packages as at September 2019)</h3>
@@ -3210,10 +3220,11 @@ BiocManager::install()</pre>
 <p>Most base R packages use &ldquo;S3&rdquo; types. Data frames, tibbles, and linear model fits are examples of these.</p>
 
 <ul>
+<li>essentially lists</li>
 <li>if necessary, peek inside with <code>$</code></li>
 </ul>
 
-<p>Bioconductor uses &ldquo;S4&rdquo; types, including it’s own data frame (<code>DataFrame</code>) and list types (<code>SimpleList</code> and others). If necessary, can almost always convert to base R types with <code>as.data.frame</code>, <code>as.list</code>, <code>as.character</code>, etc.</p>
+<p><br> Bioconductor uses &ldquo;S4&rdquo; types, including it’s own data frame (<code>DataFrame</code>) and list types (<code>SimpleList</code>, <code>GRangesList</code>, etc etc). If stuck, can almost always convert to base R types with <code>as.data.frame</code>, <code>as.list</code>, <code>as.character</code>, <code>as.numeric</code>.</p>
 
 <ul>
 <li>use accessor functions such as <code>seqnames</code>, <code>start</code>, <code>end</code>, <code>width</code>, <code>nchars</code></li>
