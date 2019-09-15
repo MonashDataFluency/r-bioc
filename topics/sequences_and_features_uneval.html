@@ -1959,17 +1959,12 @@ probs &lt;- prop.table(letter_counts[1:4,], 2)
 seqLogo(probs, ic.scale=FALSE)
 seqLogo(probs)
 
-# Generate a background set of sequences by shuffling 
-shuffle &lt;- function(dna) {
-    # Convert to a vector of single bases
-    charvec &lt;- strsplit(as.character(dna),&quot;&quot;)[[1]]
-    # Shuffle the vector 
-    shuffled_charvec &lt;- sample(charvec)
-    # Convert back to a DNA string
-    DNAString( paste(shuffled_charvec, collapse=&quot;&quot;) )
-}
+# Generate a background set of sequences by shuffling bases
+# - calling sample() on a DNAString shuffles it
+background_seqs &lt;- endoapply(initiation_seqs, sample)
+# Equivalent to:
+# background_seqs &lt;- DNAStringSet( lapply(initiation_seqs, sample) )
 
-background_seqs &lt;- DNAStringSet( lapply(initiation_seqs, shuffle) )
 names(background_seqs) &lt;- paste0(names(background_seqs), &quot;-shuffled&quot;)</code></pre>
 <pre class="r"><code>library(motifRG)
 
@@ -1983,11 +1978,12 @@ motifHtmlTable(results)
 
 refined &lt;- refinePWMMotif(results$motifs[[1]]@match$pattern, initiation_seqs)
 seqLogo(refined$model$prob)</code></pre>
-<p>There are many other motif finding programs available, outside of R. An alternative approach would be to construct the foreground and background sequences as above, then write them to FASTA files for use with an external program.</p>
+<p>There are many other motif finding programs available outside of R. An alternative approach would be to construct the foreground and background sequences as above, then write them to FASTA files for use with an external program.</p>
 <pre class="r"><code>writeXStringSet(initiation_seqs, &quot;fg.fa&quot;)
 writeXStringSet(background_seqs, &quot;bg.fa&quot;)</code></pre>
 <p>For example <a href="http://meme-suite.org/">MEME</a> (which doesn’t actually need background sequences):</p>
-<pre class="r"><code>system(&quot;meme -dna -maxsize 1000000 fg.fa&quot;)</code></pre>
+<pre class="r"><code># (meme needs to be installed for this to work)
+system(&quot;meme -dna -maxsize 1000000 fg.fa&quot;)</code></pre>
 <p>Running <code>meme</code> will produce <a href="meme_out/meme.html">this output</a>.</p>
 <pre class="r"><code>sessionInfo()</code></pre>
 </div>

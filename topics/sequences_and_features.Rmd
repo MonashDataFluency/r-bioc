@@ -584,17 +584,12 @@ probs <- prop.table(letter_counts[1:4,], 2)
 seqLogo(probs, ic.scale=FALSE)
 seqLogo(probs)
 
-# Generate a background set of sequences by shuffling 
-shuffle <- function(dna) {
-    # Convert to a vector of single bases
-    charvec <- strsplit(as.character(dna),"")[[1]]
-    # Shuffle the vector 
-    shuffled_charvec <- sample(charvec)
-    # Convert back to a DNA string
-    DNAString( paste(shuffled_charvec, collapse="") )
-}
+# Generate a background set of sequences by shuffling bases
+# - calling sample() on a DNAString shuffles it
+background_seqs <- endoapply(initiation_seqs, sample)
+# Equivalent to:
+# background_seqs <- DNAStringSet( lapply(initiation_seqs, sample) )
 
-background_seqs <- DNAStringSet( lapply(initiation_seqs, shuffle) )
 names(background_seqs) <- paste0(names(background_seqs), "-shuffled")
 ```
 
@@ -613,7 +608,7 @@ refined <- refinePWMMotif(results$motifs[[1]]@match$pattern, initiation_seqs)
 seqLogo(refined$model$prob)
 ```
 
-There are many other motif finding programs available, outside of R. An alternative approach would be to construct the foreground and background sequences as above, then write them to FASTA files for use with an external program.
+There are many other motif finding programs available outside of R. An alternative approach would be to construct the foreground and background sequences as above, then write them to FASTA files for use with an external program.
 
 ```{r}
 writeXStringSet(initiation_seqs, "fg.fa")
@@ -623,6 +618,7 @@ writeXStringSet(background_seqs, "bg.fa")
 For example [MEME](http://meme-suite.org/) (which doesn't actually need background sequences):
 
 ```{r eval=FALSE}
+# (meme needs to be installed for this to work)
 system("meme -dna -maxsize 1000000 fg.fa")
 ```
 

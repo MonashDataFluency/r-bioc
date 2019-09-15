@@ -416,17 +416,12 @@ probs <- prop.table(letter_counts[1:4,], 2)
 seqLogo(probs, ic.scale=FALSE)
 seqLogo(probs)
 
-# Generate a background set of sequences by shuffling
-shuffle <- function(dna) {
-    # Convert to a vector of single bases
-    charvec <- strsplit(as.character(dna),"")[[1]]
-    # Shuffle the vector
-    shuffled_charvec <- sample(charvec)
-    # Convert back to a DNA string
-    DNAString( paste(shuffled_charvec, collapse="") )
-}
+# Generate a background set of sequences by shuffling bases
+# - calling sample() on a DNAString shuffles it
+background_seqs <- endoapply(initiation_seqs, sample)
+# Equivalent to:
+# background_seqs <- DNAStringSet( lapply(initiation_seqs, sample) )
 
-background_seqs <- DNAStringSet( lapply(initiation_seqs, shuffle) )
 names(background_seqs) <- paste0(names(background_seqs), "-shuffled")
 
 
@@ -448,6 +443,7 @@ writeXStringSet(initiation_seqs, "fg.fa")
 writeXStringSet(background_seqs, "bg.fa")
 
 
+# (meme needs to be installed for this to work)
 system("meme -dna -maxsize 1000000 fg.fa")
 
 
