@@ -3264,7 +3264,7 @@ conda install -c bioconda meme</pre>
 <li>a genome assembly: DNA sequences of chromosomes
 
 <ul>
-<li><code>DNAStringSet</code>, or <code>BSgenome</code> or <code>TwoBitFile</code></li>
+<li><code>DNAStringSet</code> or <code>BSgenome</code> or <code>TwoBitFile</code></li>
 </ul></li>
 <li>gene annotations: strand, ranges of positions in chromosome
 
@@ -3281,31 +3281,27 @@ conda install -c bioconda meme</pre>
 
 <p>(Do workshop)</p>
 
-</article></slide><slide class=""><hgroup><h2>Documentation</h2></hgroup><article  class="smaller " id="documentation">
+</article></slide><slide class=""><hgroup><h2>Using Bioconductor</h2></hgroup><article  class="smaller " id="using-bioconductor">
 
-<p>We’ve seen the smallest part of what Bioconductor has to offer.</p>
-
-<p>Have hopefully demystified Bioconductor sufficiently that you can find and make sense of documentation.</p>
-
-<ul>
+<ol>
 <li>Find some useful packages</li>
 <li>Read the vignettes</li>
-<li>Browse the reference documentation</li>
+<li>Read the reference documentation for specific functions you need</li>
 <li>If you run into a funny class, check its documentation, work out the accessor functions, and in a pinch poke around its internals with <code>@</code> or try <code>as.data.frame</code>.</li>
-</ul>
+</ol>
 
 <pre class = 'prettyprint lang-r'>?&quot;GRanges-class&quot;
 
 methods(class=&quot;GRanges&quot;)</pre>
 
-</article></slide><slide class=""><hgroup><h2>Next steps</h2></hgroup><article  class="smaller " id="next-steps">
+<p><br></p>
 
 <ul>
+<li>The <a href='https://bioconductor.org' title=''>Bioconductor website</a> includes material from many and various tutorials/vignettes/workflows</li>
 <li><a href='http://bioconductor.org/packages/stats/' title=''>Most downloaded Bioconctor packages</a></li>
 <li><a href='https://github.com/mikelove/bioc-refcard/blob/master/README.Rmd' title=''>Mike Love’s Bioconductor cheat sheet</a></li>
-<li><a href='https://combine-australia.github.io/2017-05-19-bioconductor-melbourne/' title=''>COMBINE Bioconductor course from May 2017</a></li>
-<li><a href='https://bioconductor.org/packages/release/bioc/html/plyranges.html' title=''>plyranges</a> provides a &ldquo;tidy&rdquo; way of working with GRanges with many powerful features. The author is doing their PhD here at Monash. The vignette for this package is good value.</li>
-<li><a href='https://support.bioconductor.org/' title=''>Bioconductor’s Stack Overflow-style support site</a></li>
+<li><a href='https://bioconductor.org/packages/release/bioc/html/plyranges.html' title=''>plyranges</a> provides a &ldquo;tidy&rdquo; way of working with GRanges with many powerful features. The author is doing their PhD here at Monash. <a href='https://bioconductor.github.io/BiocWorkshops/fluent-genomic-data-analysis-with-plyranges.html' title=''>A plyranges workshop</a></li>
+<li><a href='https://support.bioconductor.org/' title=''>Bioconductor’s Stack-Overflow-style support site</a></li>
 </ul></article></slide>
 
 

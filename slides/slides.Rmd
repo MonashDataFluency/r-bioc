@@ -122,7 +122,7 @@ conda install -c bioconda meme
 Analysis usually occurs in the context of:
 
 * a genome assembly: DNA sequences of chromosomes 
-    * `DNAStringSet`, or `BSgenome` or `TwoBitFile`
+    * `DNAStringSet` or `BSgenome` or `TwoBitFile`
 * gene annotations: strand, ranges of positions in chromosome
     * `TxDb` or `EnsDb`
 
@@ -136,16 +136,12 @@ For model organisms such as human and mouse, there is usually a genome assembly 
 (Do workshop)
 
 
-## Documentation
+## Using Bioconductor
 
-We've seen the smallest part of what Bioconductor has to offer.
-
-Have hopefully demystified Bioconductor sufficiently that you can find and make sense of documentation.
-
-* Find some useful packages
-* Read the vignettes
-* Browse the reference documentation
-* If you run into a funny class, check its documentation, work out the accessor functions, and in a pinch poke around its internals with `@` or try `as.data.frame`.
+1. Find some useful packages
+1. Read the vignettes
+1. Read the reference documentation for specific functions you need
+1. If you run into a funny class, check its documentation, work out the accessor functions, and in a pinch poke around its internals with `@` or try `as.data.frame`.
 
 ```{r eval=F}
 ?"GRanges-class"
@@ -153,12 +149,12 @@ Have hopefully demystified Bioconductor sufficiently that you can find and make 
 methods(class="GRanges")
 ```
 
-## Next steps
+<br>
 
+* The [Bioconductor website](https://bioconductor.org) includes material from many and various tutorials/vignettes/workflows
 * [Most downloaded Bioconctor packages](http://bioconductor.org/packages/stats/)
 * [Mike Love's Bioconductor cheat sheet](https://github.com/mikelove/bioc-refcard/blob/master/README.Rmd)
-* [COMBINE Bioconductor course from May 2017](https://combine-australia.github.io/2017-05-19-bioconductor-melbourne/)
-* [plyranges](https://bioconductor.org/packages/release/bioc/html/plyranges.html) provides a "tidy" way of working with GRanges with many powerful features. The author is doing their PhD here at Monash. The vignette for this package is good value.
-* [Bioconductor's Stack Overflow-style support site](https://support.bioconductor.org/)
+* [plyranges](https://bioconductor.org/packages/release/bioc/html/plyranges.html) provides a "tidy" way of working with GRanges with many powerful features. The author is doing their PhD here at Monash. [A plyranges workshop](https://bioconductor.github.io/BiocWorkshops/fluent-genomic-data-analysis-with-plyranges.html)
+* [Bioconductor's Stack-Overflow-style support site](https://support.bioconductor.org/)
 
 

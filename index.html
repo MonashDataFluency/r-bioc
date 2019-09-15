@@ -452,7 +452,15 @@ BiocManager::install(c(
     &quot;seqLogo&quot;, 
     &quot;motifRG&quot;, 
     &quot;AnnotationHub&quot;
-))</code></pre>
+), INSTALL_opts=&quot;--no-byte-compile&quot;)
+
+
+
+# (I had problems installing packages in RStudio Cloud,
+#  due to running out of memory while compiling a package.
+#  Failure seemed to occur at the optional &quot;byte compilation&quot;
+#  step, and seems to be mitigated by 
+#  INSTALL_opts=&quot;--no-byte-compile&quot;.)</code></pre>
 </div>
 <div id="author" class="section level2">
 <h2>Author</h2>
