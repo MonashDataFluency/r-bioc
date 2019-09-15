@@ -42,6 +42,12 @@ BiocManager::install(c(
 ```
 
 
+## Workshop files
+
+The above code will download and unzip the files for this workshop. You can also download them from:
+
+* [r-bioc-files.zip](r-bioc-files.zip)
+
 
 ## Author
 
