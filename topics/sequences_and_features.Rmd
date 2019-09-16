@@ -79,7 +79,7 @@ You can see a complete set of functions that work with DNAString with:
 methods(class="DNAString")
 ```
 
-You can see get help on the `DNAString` class with:
+You can get help on the `DNAString` class with:
 
 ```{r eval=FALSE}
 ?"DNAString-class"
@@ -241,7 +241,7 @@ seqinfo(features) <- myseqinfo
 
 One thing you need to care about is the genome version. We often refer to genome versions by their name in the [UCSC genome browser](https://genome.ucsc.edu/). For example the two most recent versions of the human genome are "hg19" from 2009 and "hg38" from 2013.
 
-```{r}
+```{r cache=TRUE}
 Seqinfo(genome="hg19")
 Seqinfo(genome="hg38")
 ```

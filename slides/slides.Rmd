@@ -47,20 +47,28 @@ BiocManager::install()
 
 ## What Bioconductor is for
 
+**Peaks, regions, motifs in genome** <span style="color: #00aaaa">&larr; focus for today</span>
+
+eg for ChIP-seq, ATAC-seq, variant calling
+
+* `Biostrings`, `GenomicRanges`, `GenomicFeatures`, ...
+<br>
+
 **Differential expression analysis from microarray or RNA-seq**
 
-* `limma`, `edgeR`, `DESeq2`, ...
+* `SummarizedExperiment`, `limma`, `edgeR`, `DESeq2`, ...
 * Further packages to normalize, impute, batch correct, check quality, ...
+<br>
 
 **Visualization**
 
 * `ComplexHeatmap`, `Gviz`, `ggbio`, ...
-
-**Peaks, regions, motifs in genome** (eg for ChIP-seq, ATAC-seq)
-
-* `GenomicRanges`, `GenomicFeatures`, ...
+<br>
 
 **Single-cell sequencing**
+
+* `SingleCellExperiment`, ...
+<br>
 
 **Statistical methods for $p \gg n$ data**
 
@@ -71,12 +79,23 @@ BiocManager::install()
 
 Can do a lot in R with vectors and data frames.
 
-To use Bioconductor, familiarity with several further types are important.
+Using Bioconductor will mean building familiarity with further types:
 
 * `matrix`, `list`
+<br>
+<br>
+
 * `DNAString`, `DNAStringSet`
 * `GRanges`
-* Others: `SeqInfo`, `TxDb`, `EnsDb`, `OrgDb`, `VCF`, `SummarizedExperiment`, `DelayedArray`, ...
+<br>
+<br>
+
+* `Seqinfo`
+* `TxDb`, `EnsDb`
+<br>
+<br>
+
+* `OrgDb`, `VCF`, `SummarizedExperiment`, `DelayedArray`, ...
 
 ## S4 types
 
