@@ -41,6 +41,16 @@ Aim for this session is to cover fundamentals of Bioconductor, so you can look u
 
 
 
+# 2019-09-17, 10am-1pm
+- Needed a 15 minute break around 11:15am.
+- Finished 12:45pm. May be better to slow down a little in the last sections.
+- The Seqinfo section interrupts the flow a little, maybe move it?
+- motifRG failed on RStudio Cloud.
+- Attendees wanted more challenges, and more time on challenges. (I gave 10 minutes on the start/stop codon challenge. Maybe extend to 15 minutes?)
+- More Eukaryote?
+- More visual explanation?
+
+
 
 
 
