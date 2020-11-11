@@ -162,7 +162,7 @@
 ]>
 <!-- Begin document body -->
 <MEME version="4.11.2" release="Thu May 05 14:58:55 2016 -0700">
-<training_set datafile="fg.fa" length="4051">
+<training_set datafile="seqs.fasta" length="4051">
 <alphabet name="DNA" like="dna">
 <letter id="A" symbol="A" complement="T" name="Adenine" colour="CC0000"/>
 <letter id="C" symbol="C" complement="G" name="Cytosine" colour="0000CC"/>
@@ -4241,8 +4241,8 @@
 </letter_frequencies>
 </training_set>
 <model>
-<command_line>meme -dna -maxsize 1000000 fg.fa </command_line>
-<host>static.162.252.209.196.cyberlynk.net</host>
+<command_line>meme -dna seqs.fasta </command_line>
+<host>Mac-1806.local</host>
 <type>zoops</type>
 <nmotifs>1</nmotifs>
 <evalue_threshold>inf</evalue_threshold>
@@ -4281,7 +4281,7 @@
 </background_frequencies>
 </model>
 <motifs>
-<motif id="motif_1" name="1" width="15" sites="2709" ic="6.8" re="5.8" llr="10901" e_value="5.7e-1225" bayes_threshold="4.61751" elapsed_time="5278.044591">
+<motif id="motif_1" name="1" width="15" sites="2709" ic="6.8" re="5.8" llr="10901" e_value="5.7e-1225" bayes_threshold="4.61751" elapsed_time="4568.739471">
 <scores>
 <alphabet_matrix>
 <alphabet_array>

@@ -3,8 +3,7 @@
 *.sublime*
 *_cache
 *_files
-fg.fa
-bg.fa
+seqs.fasta
 motif-matches.gff
 html
 

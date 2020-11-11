@@ -565,7 +565,7 @@ We might then view this in the IGV genome browser:
 
 Let's try to "discover" the Shine-Dalgarno sequence for ourselves.
 
-```{r cache=TRUE}
+```{r cache=TRUE, warnings=FALSE}
 # Note: bacteria do not have introns
 # In a eukaryote we would need to work with transcript 
 # sequences (extractTranscriptSeqs) and work out where 
@@ -583,47 +583,32 @@ letter_counts <- consensusMatrix(initiation_seqs)
 probs <- prop.table(letter_counts[1:4,], 2)
 seqLogo(probs, ic.scale=FALSE)
 seqLogo(probs)
-
-# Generate a background set of sequences by shuffling bases
-# - calling sample() on a DNAString shuffles it
-background_seqs <- endoapply(initiation_seqs, sample)
-# Equivalent to:
-# background_seqs <- DNAStringSet( lapply(initiation_seqs, sample) )
-
-names(background_seqs) <- paste0(names(background_seqs), "-shuffled")
 ```
 
-```{r cache=TRUE, warning=FALSE, message=FALSE}
-library(motifRG)
-
-results <- findMotifFgBg(
-    initiation_seqs, background_seqs, 
-    both.strand=FALSE, start.width=4)
-
-summaryMotif(results$motif, results$category)
-
-motifHtmlTable(results)
-
-refined <- refinePWMMotif(results$motifs[[1]]@match$pattern, initiation_seqs)
-seqLogo(refined$model$prob)
-```
-
-There are many other motif finding programs available outside of R. An alternative approach would be to construct the foreground and background sequences as above, then write them to FASTA files for use with an external program.
+A popular suite of motif discovery programs is [MEME](http://meme-suite.org/). We can use MEME after writing the sequences to a file.
 
 ```{r}
-writeXStringSet(initiation_seqs, "fg.fa")
-writeXStringSet(background_seqs, "bg.fa")
+writeXStringSet(initiation_seqs, "seqs.fasta")
 ```
 
-For example [MEME](http://meme-suite.org/) (which doesn't actually need background sequences):
+MEME is command-line software. Bioinformatics software, including MEME, often requires a UNIX environment such as Linux or Mac OS. Windows users may need to obtain access to a Linux server or run Linux in a "container". To run MEME we need to type commands in a "terminal" window. This is a whole other workshop!
 
-```{r eval=FALSE}
-# (meme needs to be installed for this to work)
-system("meme -dna -maxsize 1000000 fg.fa")
+Bioinformatics software is often most easily installed using [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/). To minimize the number of default packages installed, use "Miniconda". Once you have installed Miniconda, you can activate conda and install MEME with:
+
+```
+### in a terminal ###
+# conda activate
+# conda install -c bioconda meme
+```
+
+Now we can run `meme` with:
+
+```
+### in a terminal ###
+# meme -dna seqs.fasta
 ```
 
 Running `meme` will produce [this output](meme_out/meme.html).
-
 
 
 ```{r}

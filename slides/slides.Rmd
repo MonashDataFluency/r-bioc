@@ -124,7 +124,7 @@ R's role will often be to massage your data into the form needed for command lin
 
 One way to install command-line software is using the Conda package manager:
 
-* [Install miniconda](https://docs.conda.io/en/latest/miniconda.html)
+* [Install miniconda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/)
 * Use the [bioconda](https://anaconda.org/bioconda) channel
 
 ```

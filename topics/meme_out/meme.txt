@@ -28,7 +28,7 @@ AAAI Press, Menlo Park, California, 1994.
 ********************************************************************************
 TRAINING SET
 ********************************************************************************
-DATAFILE= fg.fa
+DATAFILE= seqs.fasta
 ALPHABET= ACGT
 Sequence name            Weight Length  Sequence name            Weight Length  
 -------------            ------ ------  -------------            ------ ------  
@@ -2066,7 +2066,7 @@ COMMAND LINE SUMMARY
 This information can also be useful in the event you wish to report a
 problem with the MEME software.
 
-command: meme -dna -maxsize 1000000 fg.fa 
+command: meme -dna seqs.fasta 
 
 model:  mod=         zoops    nmotifs=         1    evt=           inf
 object function=  E-value of product of p-values
@@ -10316,7 +10316,7 @@ letter-probability matrix: alength= 4 w= 15 nsites= 2709 E= 5.7e-1225
 
 
 
-Time 5278.04 secs.
+Time 4568.74 secs.
 
 ********************************************************************************
 
@@ -14390,6 +14390,6 @@ ER3413_4514                      5.10e-01  20
 Stopped because requested number of motifs (1) found.
 ********************************************************************************
 
-CPU: dyn-49-127-69-81.its.monash.edu.au
+CPU: snowpea3
 
 ********************************************************************************

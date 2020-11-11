@@ -416,35 +416,17 @@ probs <- prop.table(letter_counts[1:4,], 2)
 seqLogo(probs, ic.scale=FALSE)
 seqLogo(probs)
 
-# Generate a background set of sequences by shuffling bases
-# - calling sample() on a DNAString shuffles it
-background_seqs <- endoapply(initiation_seqs, sample)
-# Equivalent to:
-# background_seqs <- DNAStringSet( lapply(initiation_seqs, sample) )
 
-names(background_seqs) <- paste0(names(background_seqs), "-shuffled")
+writeXStringSet(initiation_seqs, "seqs.fasta")
 
 
-library(motifRG)
-
-results <- findMotifFgBg(
-    initiation_seqs, background_seqs,
-    both.strand=FALSE, start.width=4)
-
-summaryMotif(results$motif, results$category)
-
-motifHtmlTable(results)
-
-refined <- refinePWMMotif(results$motifs[[1]]@match$pattern, initiation_seqs)
-seqLogo(refined$model$prob)
+### in a terminal ###
+# conda activate
+# conda install -c bioconda meme
 
 
-writeXStringSet(initiation_seqs, "fg.fa")
-writeXStringSet(background_seqs, "bg.fa")
-
-
-# (meme needs to be installed for this to work)
-system("meme -dna -maxsize 1000000 fg.fa")
+### in a terminal ###
+# meme -dna seqs.fasta
 
 
 sessionInfo()

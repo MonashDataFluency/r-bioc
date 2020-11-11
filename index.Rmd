@@ -36,7 +36,6 @@ BiocManager::install(c(
     "ensembldb", 
     "rtracklayer", 
     "seqLogo", 
-    "motifRG", 
     "AnnotationHub"
 ), INSTALL_opts="--no-byte-compile")
 ```

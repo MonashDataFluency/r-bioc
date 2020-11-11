@@ -1,0 +1,37 @@
+
+This workshop originally used motifRG, however it has been removed from Bioconductor.
+
+The only Bioconductor motif finder now seems to be rGADEM. It seems to have build problems, plus only runs in unstranded mode.
+
+I've decided it's better to emphasize using an external program, from the MEME suite.
+
+
+This is the old motifRG code:
+
+```{r cache=TRUE, warning=FALSE, message=FALSE}
+library(motifRG)
+
+
+# Generate a background set of sequences by shuffling bases
+# - calling sample() on a DNAString shuffles it
+background_seqs <- endoapply(initiation_seqs, sample)
+# Equivalent to:
+# background_seqs <- DNAStringSet( lapply(initiation_seqs, sample) )
+
+names(background_seqs) <- paste0(names(background_seqs), "-shuffled")
+
+
+results <- findMotifFgBg(
+    initiation_seqs, background_seqs, 
+    both.strand=FALSE, start.width=4)
+
+summaryMotif(results$motif, results$category)
+
+motifHtmlTable(results)
+
+refined <- refinePWMMotif(results$motifs[[1]]@match$pattern, initiation_seqs)
+seqLogo(refined$model$prob)
+```
+
+
+
