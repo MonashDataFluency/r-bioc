@@ -462,6 +462,8 @@ These organizations will generally obtain genome assemblies from the same ultima
 
 * *org.Hs.eg.db* Organism Homo sapiens, primary key is Entrez Gene, database. Translation of gene ids from various databases, assignment to GO terms, KEGG pathways, etc. Entrez Gene ids are used as the primary key.
 
+* *GO.db* GO Gene Ontology term descriptions and relationships. However, to find which terms apply to specific genes, use the GOALL column in the relevant species' organism database.
+
 ## biomaRt 
 
 [BioMart](http://www.biomart.org/) servers accessed using the `biomaRt` package are another way to get information such as translation of gene ids, gene sets, and gene information.
