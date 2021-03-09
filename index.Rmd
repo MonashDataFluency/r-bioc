@@ -40,6 +40,10 @@ BiocManager::install(c(
 ), INSTALL_opts="--no-byte-compile")
 ```
 
+<br>
+
+Optional: [Download and install IGV](https://software.broadinstitute.org/software/igv/download) on your computer.
+
 
 ## Workshop files
 
