@@ -22,7 +22,7 @@ Bioconductor is repository for R packages relating to high-throughput biology (s
 
 Functions and types that are always available in R.
 
-### CRAN (14,917 packages as at September 2019)
+### CRAN (17,264 packages as at March 2021)
 
 "Comprehensive R Archive Network" - main source of R packages
 
@@ -31,7 +31,7 @@ install.packages("glmnet")
 install.packages("tidyverse")
 ```
 
-### Bioconductor (1,741 packages as at September 2019)
+### Bioconductor (1,974 packages as at March 2021)
 
 ```{r eval=F}
 # Setup
@@ -67,7 +67,8 @@ eg for ChIP-seq, ATAC-seq, variant calling
 
 **Single-cell sequencing**
 
-* `SingleCellExperiment`, ...
+* `SingleCellExperiment`, `scater`, `scran`, ...
+* ["Orchestrating Single-Cell Analysis with Bioconductor" book](http://bioconductor.org/books/release/OSCA/)
 <br>
 
 **Statistical methods for $p \gg n$ data**
@@ -111,8 +112,62 @@ Bioconductor uses "S4" types, including it's own data frame (`DataFrame`) and li
 * if absolutely necessary, peek inside with `@`
 
 <br>
-[Stuart Lee's guide to S4 for the perplexed](https://stuartlee.org/post/content/post/2019-07-09-s4-a-short-guide-for-perplexed/)
+[Stuart Lee's guide to S4 for the perplexed](https://stuartlee.org/2019/07/09/s4-short-guide/)
 
+
+##
+
+(do workshop)
+
+
+
+## Reference genomes and annotations
+
+Data analysis usually occurs in the context of:
+
+* a genome assembly
+* gene and transcript annotations
+
+For model organisms such as human and mouse, there is usually a genome assembly that is updated infrequently, and then several sets of gene annotations (Ensembl, RefSeq, UCSC) which are updated much more frequently.
+
+<img src="../figures/igv.png" width="1000">
+
+
+## Genome browsers
+
+On the web:
+
+* [UCSC](https://genome.ucsc.edu/cgi-bin/hgTracks?db=hg19&lastVirtModeType=default&lastVirtModeExtraState=&virtModeType=default&virtMode=0&nonVirtPosition=&position=chr13%3A32868568%2D32994857&hgsid=1052205095_AaqJoeemFT7StcNxT3Cxn3TgBT0N)
+* [Ensembl](https://asia.ensembl.org/Homo_sapiens/Location/View?db=core;g=ENSG00000139618;r=13:32313383-32401971)
+
+On your desktop:
+
+* [Integrative Genomics Viewer](https://software.broadinstitute.org/software/igv/)
+    * Can view many file types. 
+    * View very large files such as [BAM](https://samtools.github.io/hts-specs/) or [bigWig](https://genome.ucsc.edu/goldenPath/help/bigWig.html).
+
+<img src="../figures/igv.png" width="1000">
+
+
+## Files in bioinformatics
+
+| What|File types|R types|
+| --- | --- | --- |
+| DNA sequence | FASTA, FASTQ, 2bit(R) | Biostrings::DNAStringSet, BSgenome(R), rtracklayer::TwoBitFile(R) |
+| Amino acid sequence | FASTA | Biostrings::AAStringSet |
+| Genomic features | GTF(I), GFF(I), BED(I) | GenomicRanges::GRanges, GenomicFeatures::TxDb, ensembldb::EnsDb |
+| Read alignments | SAM, BAM(I) | GenomicAlignments::GAlignments, Rsamtools::BamFile(I) |
+| Numeric data along a genome | wiggle, bigWig(R) | list of numeric vectors, IRanges::RleList, rtracklayer::BigWigFile(R) |
+| Variant calls | VCF(I) | VariantAnnotation::VCF |
+| Numeric matrix (gene expression, etc) | CSV, HDF5(R) | matrix, HDF5Array, DelayedArray, SummarizedExperiment, SingleCellExperiment, ... |
+
+(plus many more)
+
+` `(R) random access to large files \
+` `(I) random access with an accompanying index file \
+` `Prefer these file types!
+
+`rtracklayer::import()` can read many file types.
 
 ## Command-line bioinformatics software
 
@@ -136,23 +191,9 @@ conda install -c bioconda meme
 * Doesn't need admin rights.
 
 
-## Reference genomes and annotations
-
-Analysis usually occurs in the context of:
-
-* a genome assembly: DNA sequences of chromosomes 
-    * `DNAStringSet` or `BSgenome` or `TwoBitFile`
-* gene annotations: strand, ranges of positions in chromosome
-    * `TxDb` or `EnsDb`
-
-For model organisms such as human and mouse, there is usually a genome assembly that is updated infrequently, and then several sets of gene annotations (Ensembl, RefSeq, UCSC, etc) which are updated much more frequently.
-
-<img src="../figures/igv.png" width="1000">
-
-
 ##
 
-(Do workshop)
+(continue workshop)
 
 
 ## Using Bioconductor
@@ -173,7 +214,7 @@ methods(class="GRanges")
 * The [Bioconductor website](https://bioconductor.org) includes material from many and various tutorials/vignettes/workflows
 * [Most downloaded Bioconctor packages](http://bioconductor.org/packages/stats/)
 * [Mike Love's Bioconductor cheat sheet](https://github.com/mikelove/bioc-refcard/blob/master/README.Rmd)
-* [plyranges](https://bioconductor.org/packages/release/bioc/html/plyranges.html) provides a "tidy" way of working with GRanges with many powerful features. The author is doing their PhD here at Monash. [A plyranges workshop](https://bioconductor.github.io/BiocWorkshops/fluent-genomic-data-analysis-with-plyranges.html)
+* [plyranges](https://bioconductor.org/packages/release/bioc/html/plyranges.html) provides a "tidy" way of working with GRanges with many powerful features, developed by Dr. Stuart Lee at Monash. [A plyranges workshop](https://bioconductor.github.io/BiocWorkshops/fluent-genomic-data-analysis-with-plyranges.html)
 * [Bioconductor's Stack-Overflow-style support site](https://support.bioconductor.org/)
 
 

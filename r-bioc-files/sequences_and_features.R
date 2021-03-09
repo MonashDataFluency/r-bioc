@@ -16,6 +16,8 @@ vignette()
 vignette(package="Biostrings")
 vignette("BiostringsQuickOverview", package="Biostrings")
 
+# or browse https://bioconductor.org/packages/release/BiocViews.html#___Software
+
 
 
 
@@ -91,7 +93,8 @@ strand(range1)
 as.data.frame(range1)
 
 
-range1@
+# Look at completions for
+# range1@
 
 
 # GRanges are like vectors:
@@ -323,6 +326,9 @@ extractTranscriptSeqs(seqs, cds_ranges)
 #///////////////////////////////////////
 # 4 Genome and annotation resources ----
 
+# (return to slideshow)
+
+
 # 4.1 Example packages ----
 
 # 4.2 biomaRt ----
@@ -360,7 +366,7 @@ import(sc_genome)
 
 # An OrgDb contains information about genes in an organism, and lets you map between different identifiers
 query(ah, c("OrgDb", "Saccharomyces cerevisiae"))
-sc_orgdb <- ah[["AH70579"]]
+sc_orgdb <- ah[["AH84129"]]
 columns(sc_orgdb)
 head( keys(sc_orgdb, "ENSEMBL") )
 select(sc_orgdb, "YFL039C", c("GENENAME", "DESCRIPTION"), keytype="ENSEMBL")

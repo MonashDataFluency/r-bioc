@@ -33,3 +33,7 @@ h1,h2,h3 {
 .tip:hover .tiptext {
     visibility: visible;
 }
+
+table.rmdtable th, table.rmdtable td {
+    padding: 0.25em;
+}

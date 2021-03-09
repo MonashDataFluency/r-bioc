@@ -31,12 +31,14 @@ library(BiocManager)
 install("Biostrings")
 ```
 
-Bioconductor packages usually have useful documentation in the form of "vignettes". These are readable on the Bioconductor website, or within R:
+Bioconductor packages usually have useful documentation in the form of "vignettes". These are readable [on the Bioconductor website](https://bioconductor.org/packages/release/BiocViews.html#___Software), from the RStudio "help" pane, or within R:
 
 ```{r eval=FALSE}
 vignette()
 vignette(package="Biostrings")
 vignette("BiostringsQuickOverview", package="Biostrings")
+
+# or browse https://bioconductor.org/packages/release/BiocViews.html#___Software
 ```
 
 
@@ -134,10 +136,11 @@ strand(range1)
 as.data.frame(range1)
 ```
 
-Internals of an "S4" object such as a GRanges can be accessed using `@`, but this is discouraged. It is better to use the accessor functions above. Observe the completions RStudio offers when you type:
+Internals of an "S4" object such as a GRanges can be accessed using `@`, but this is discouraged. It is better to use the accessor functions above. Observe the completions RStudio offers when you type `range1@`.
 
 ```{r eval=FALSE}
-range1@
+# Look at completions for
+# range1@
 ```
 
 Further manipulations:
@@ -446,13 +449,25 @@ There's much more to explore here. Have a look at the documentation for the `Gen
 
 # Genome and annotation resources
 
+```{r eval=FALSE,echo=FALSE}
+# (return to slideshow)
+```
+
 Besides software, Bioconductor includes packages with data for model organisms, for example. The data is generally from these central repositories:
 
-* NCBI's Entrez Gene gene database and Refseq reference sequences
-* The EBI's Ensembl genome browser
-* The UCSC genome browser
+* NCBI's [RefSeq](https://www.ncbi.nlm.nih.gov/refseq/)
+* The EBI's [Ensembl genome browser](https://ensembl.org/)
+* The [UCSC genome browser](https://genome.ucsc.edu/cgi-bin/hgGateway)
 
-These organizations will generally obtain genome assemblies from the same ultimate sources. For example, all of the above use the Genome Reference Consortium's GRCh38 DNA sequence for homo sapiens. UCSC calls this "hg38" but it is the same DNA sequence. These DNA sequences serve as a common frame of reference. However the three organizations above will differ on their exact set of gene and transcript annotations, and all use a different gene and transcript ID system. These annotations are also revised more often than the underlying DNA sequences.
+These organizations will generally obtain genome assemblies from the same ultimate sources. For example, all of the above use the Genome Reference Consortium's GRCh38 DNA sequence for homo sapiens. UCSC calls this "hg38" but it is the same DNA sequence. These DNA sequences serve as a common frame of reference. However the three organizations above will differ on their exact set of gene and transcript annotations, and all use a different gene and transcript ID system. 
+
+Genome assemblies are released infrequently. GRCh38 (hg38) was released in 2013. The previous assembly, GRCh37 (hg19) was released in 2009. Some people haven't updated yet, you will find plenty of data using "hg19" positions! Gene and transcript annotations are updated far more frequently.
+
+As well as the chromosomes in the "primary assembly" a genome assembly may have further sequences, which may have been added after the initial release:
+
+* patch sequences: small fixes that would change the sizes of chromosomes
+* alt loci: a way to represent alleles, genetic diversity in the species
+
 
 ## Example packages
 
@@ -462,7 +477,8 @@ These organizations will generally obtain genome assemblies from the same ultima
 
 * *org.Hs.eg.db* Organism Homo sapiens, primary key is Entrez Gene, database. Translation of gene ids from various databases, assignment to GO terms, KEGG pathways, etc. Entrez Gene ids are used as the primary key.
 
-* *GO.db* GO Gene Ontology term descriptions and relationships. However, to find which terms apply to specific genes, use the GOALL column in the relevant species' organism database.
+* *GO.db* GO Gene Ontology term descriptions and relationships. However to find which terms apply to specific genes, use the GOALL column in the relevant species' organism database.
+
 
 ## biomaRt 
 
@@ -474,8 +490,6 @@ Beware replicability. BioMart servers are not guaranteed to be available forever
 ## AnnotationHub
 
 AnnotationHub is a way to retrieve data from a more comprehensive set of organisms and data providers than are provided as individual Bioconductor packages. The retrieved data is returned in an appropriate Bioconductor type. If data is being updated over time (eg improved annotation of a genome), each version receives a unique ID in AnnotationHub, making it possible to write reproducable analyses.
-
-AnnotationHub also provides access to experimental data which maps to locations on a genome, similar to the sorts of tracks you would load in the UCSC browser.
 
 Files are cached, so they will only be downloaded once.
 
@@ -513,7 +527,7 @@ import(sc_genome)
 
 # An OrgDb contains information about genes in an organism, and lets you map between different identifiers
 query(ah, c("OrgDb", "Saccharomyces cerevisiae"))
-sc_orgdb <- ah[["AH70579"]]
+sc_orgdb <- ah[["AH84129"]]
 columns(sc_orgdb)
 head( keys(sc_orgdb, "ENSEMBL") )
 select(sc_orgdb, "YFL039C", c("GENENAME", "DESCRIPTION"), keytype="ENSEMBL")
