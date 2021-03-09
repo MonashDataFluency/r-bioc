@@ -20,7 +20,11 @@ for line in sys.stdin:
         print(line)
     elif line.startswith("#"):
         print("#" if in_challenge else "")
+
         in_challenge = "{.challenge}" in line
+
+        if ".unlisted" in line: continue
+
         if in_challenge:
             line = line.replace("{.challenge}","").rstrip()
         #n = line.count("#")

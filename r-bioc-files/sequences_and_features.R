@@ -435,5 +435,17 @@ writeXStringSet(initiation_seqs, "seqs.fasta")
 # meme -dna seqs.fasta
 
 
+# 5.3 Challenge ----
+# 
+# Which genes have close matches to AGGAGGT (as we found earlier)
+# immediately upstrand of their CDS?
+# 
+# Check some of the genes you find using IGV. (Once the E. coli FASTA
+# file is loaded as the genome and the E. coli GTF file is loaded, you
+# can search for a gene by typing its name in the location box.)
+# 
+# 
+#
+
 sessionInfo()
 
