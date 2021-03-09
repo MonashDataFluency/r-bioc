@@ -266,7 +266,7 @@ h1 {
 font-size: 50px;
 }
 h1.title {
-font-size: 70px;
+font-size: 50px;
 margin-top: 0.5em;
 }
 h2 {
@@ -420,8 +420,8 @@ pre code {
 </div>
 
 
-<div id="workshop-notes" class="section level2">
-<h2>Workshop notes</h2>
+<div id="workshop-material" class="section level2">
+<h2>Workshop material</h2>
 <ul>
 <li><a href="slides/slides.html">Slideshow</a></li>
 <li><a href="topics/sequences_and_features.html">Workshop</a></li>
@@ -429,8 +429,9 @@ pre code {
 </div>
 <div id="setup" class="section level2">
 <h2>Setup</h2>
-<p>This workshop is designed to work with <a href="https://rstudio.cloud/">RStudio Cloud</a>. Go to <a href="https://rstudio.cloud/" class="uri">https://rstudio.cloud/</a> (Monash users can log in with their Monash google account) and create a new project. The workshop can also be done using R locally on your laptop (if doing this, we also recommend you create a new project to contain the files).</p>
-<p>Running the R code below will download files and install packages used in this workshop.</p>
+<p>This workshop is best done using <a href="https://rstudio.com/products/rstudio/download/">RStudio</a> and <a href="https://cran.r-project.org/">R</a> on your laptop. We recommend you create a new project to contain the files. Alternatively you can use <a href="https://rstudio.cloud/">RStudio Cloud</a> over the web (Monash users can log in with their Monash google account).</p>
+<p>Optionally, also <a href="https://software.broadinstitute.org/software/igv/download">download and install IGV</a> on your computer.</p>
+<p>Once you’ve created a new project in RStudio, running the R code below will download files and install packages used in this workshop.</p>
 <pre class="r"><code># Download data
 download.file(
   &quot;https://monashdatafluency.github.io/r-bioc/r-bioc-files.zip&quot;,
@@ -451,8 +452,6 @@ BiocManager::install(c(
     &quot;seqLogo&quot;, 
     &quot;AnnotationHub&quot;
 ), INSTALL_opts=&quot;--no-byte-compile&quot;)</code></pre>
-<p><br></p>
-<p>Optional: <a href="https://software.broadinstitute.org/software/igv/download">Download and install IGV</a> on your computer.</p>
 </div>
 <div id="workshop-files" class="section level2">
 <h2>Workshop files</h2>

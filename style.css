@@ -3,7 +3,6 @@ body {
     margin-bottom: 4em;
 }
 
-
 h1,h2,h3,h4,h5,h6 {
     margin-top: 2em;
     margin-bottom: 0.5em;
@@ -14,7 +13,7 @@ h1 {
 }
 
 h1.title {
-  font-size: 70px;
+  font-size: 50px;
   margin-top: 0.5em;
 }
 

@@ -6,16 +6,18 @@ output:
         css: style.css
 ---
 
-## Workshop notes
+## Workshop material
 
 * [Slideshow](slides/slides.html)
 * [Workshop](topics/sequences_and_features.html)
 
 ## Setup
 
-This workshop is designed to work with [RStudio Cloud](https://rstudio.cloud/). Go to https://rstudio.cloud/ (Monash users can log in with their Monash google account) and create a new project. The workshop can also be done using R locally on your laptop (if doing this, we also recommend you create a new project to contain the files).
+This workshop is best done using [RStudio](https://rstudio.com/products/rstudio/download/) and [R](https://cran.r-project.org/) on your laptop. We recommend you create a new project to contain the files. Alternatively you can use [RStudio Cloud](https://rstudio.cloud/) over the web (Monash users can log in with their Monash google account). 
 
-Running the R code below will download files and install packages used in this workshop.
+Optionally, also [download and install IGV](https://software.broadinstitute.org/software/igv/download) on your computer.
+
+Once you've created a new project in RStudio, running the R code below will download files and install packages used in this workshop.
 
 ```{r eval=FALSE}
 # Download data
@@ -39,10 +41,6 @@ BiocManager::install(c(
     "AnnotationHub"
 ), INSTALL_opts="--no-byte-compile")
 ```
-
-<br>
-
-Optional: [Download and install IGV](https://software.broadinstitute.org/software/igv/download) on your computer.
 
 
 ## Workshop files
