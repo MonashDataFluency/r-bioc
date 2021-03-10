@@ -1340,7 +1340,7 @@ h1 {
 font-size: 50px;
 }
 h1.title {
-font-size: 70px;
+font-size: 50px;
 margin-top: 0.5em;
 }
 h2 {
@@ -1809,8 +1809,7 @@ findOverlaps(query, features, ignore.strand=FALSE)</code></pre>
 # 
 # disjoin (---)(---)(-)(-----)(--)    (---)
 # 
-# GenomicRanges::setdiff(range(input),input)
-#                                 (--)</code></pre>
+# setdiff(range(input),input)     (--)</code></pre>
 </div>
 <div id="challenge-1" class="section level2 challenge" number="3.3">
 <h2 class="challenge" number="3.3"><span class="header-section-number">3.3</span> Challenge</h2>
@@ -1841,6 +1840,7 @@ findOverlaps(query, features, ignore.strand=FALSE)</code></pre>
 txdb</code></pre>
 <p><code>txdb</code> is a <code>TxDb</code> object.</p>
 <pre class="r"><code>genes(txdb)
+transcriptsBy(txdb, by=&quot;gene&quot;)
 exonsBy(txdb, use.names=TRUE)
 cdsBy(txdb, use.names=TRUE)
 

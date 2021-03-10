@@ -371,8 +371,7 @@ With `findOverlaps`, we can use genomic location as the key when *joining* dispa
 # 
 # disjoin (---)(---)(-)(-----)(--)    (---)
 # 
-# GenomicRanges::setdiff(range(input),input)
-#                                 (--)
+# setdiff(range(input),input)     (--)
 ```
 
 
@@ -428,6 +427,7 @@ txdb
 
 ```{r}
 genes(txdb)
+transcriptsBy(txdb, by="gene")
 exonsBy(txdb, use.names=TRUE)
 cdsBy(txdb, use.names=TRUE)
 

@@ -264,8 +264,7 @@ findOverlaps(query, features, ignore.strand=FALSE)
 #
 # disjoin (---)(---)(-)(-----)(--)    (---)
 #
-# GenomicRanges::setdiff(range(input),input)
-#                                 (--)
+# setdiff(range(input),input)     (--)
 
 
 # 3.3 Challenge ----
@@ -309,6 +308,7 @@ txdb
 
 
 genes(txdb)
+transcriptsBy(txdb, by="gene")
 exonsBy(txdb, use.names=TRUE)
 cdsBy(txdb, use.names=TRUE)
 

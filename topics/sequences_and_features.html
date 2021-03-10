@@ -1340,7 +1340,7 @@ h1 {
 font-size: 50px;
 }
 h1.title {
-font-size: 70px;
+font-size: 50px;
 margin-top: 0.5em;
 }
 h2 {
@@ -2052,8 +2052,7 @@ hits</code></pre>
 # 
 # disjoin (---)(---)(-)(-----)(--)    (---)
 # 
-# GenomicRanges::setdiff(range(input),input)
-#                                 (--)</code></pre>
+# setdiff(range(input),input)     (--)</code></pre>
 </div>
 <div id="challenge-1" class="section level2 challenge" number="3.3">
 <h2 class="challenge" number="3.3"><span class="header-section-number">3.3</span> Challenge</h2>
@@ -2107,7 +2106,7 @@ txdb</code></pre>
 ## # Genome: NA
 ## # Nb of transcripts: 4257
 ## # Db created by: GenomicFeatures package from Bioconductor
-## # Creation time: 2021-03-09 21:54:43 +1100 (Tue, 09 Mar 2021)
+## # Creation time: 2021-03-10 15:11:24 +1100 (Wed, 10 Mar 2021)
 ## # GenomicFeatures version at creation time: 1.42.1
 ## # RSQLite version at creation time: 2.2.3
 ## # DBSCHEMAVERSION: 1.2</code></pre>
@@ -2129,6 +2128,34 @@ txdb</code></pre>
 ##    ER3413_999 Chromosome 1033186-1033584      + |  ER3413_999
 ##   -------
 ##   seqinfo: 1 sequence (1 circular) from an unspecified genome</code></pre>
+<pre class="r"><code>transcriptsBy(txdb, by=&quot;gene&quot;)</code></pre>
+<pre><code>## GRangesList object of length 4257:
+## $ER3413_1
+## GRanges object with 1 range and 2 metadata columns:
+##         seqnames    ranges strand |     tx_id     tx_name
+##            &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt; &lt;character&gt;
+##   [1] Chromosome  337-2799      + |         2    AIZ50783
+##   -------
+##   seqinfo: 1 sequence (1 circular) from an unspecified genome
+## 
+## $ER3413_10
+## GRanges object with 1 range and 2 metadata columns:
+##         seqnames      ranges strand |     tx_id     tx_name
+##            &lt;Rle&gt;   &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt; &lt;character&gt;
+##   [1] Chromosome 10643-11356      - |      2087    AIZ50784
+##   -------
+##   seqinfo: 1 sequence (1 circular) from an unspecified genome
+## 
+## $ER3413_100
+## GRanges object with 1 range and 2 metadata columns:
+##         seqnames        ranges strand |     tx_id     tx_name
+##            &lt;Rle&gt;     &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt; &lt;character&gt;
+##   [1] Chromosome 113444-114487      + |        62    AIZ50785
+##   -------
+##   seqinfo: 1 sequence (1 circular) from an unspecified genome
+## 
+## ...
+## &lt;4254 more elements&gt;</code></pre>
 <pre class="r"><code>exonsBy(txdb, use.names=TRUE)</code></pre>
 <pre><code>## GRangesList object of length 4257:
 ## $AIZ54182
