@@ -2106,7 +2106,7 @@ txdb</code></pre>
 ## # Genome: NA
 ## # Nb of transcripts: 4257
 ## # Db created by: GenomicFeatures package from Bioconductor
-## # Creation time: 2021-03-10 15:11:24 +1100 (Wed, 10 Mar 2021)
+## # Creation time: 2021-03-12 09:57:59 +1100 (Fri, 12 Mar 2021)
 ## # GenomicFeatures version at creation time: 1.42.1
 ## # RSQLite version at creation time: 2.2.3
 ## # DBSCHEMAVERSION: 1.2</code></pre>
@@ -2264,17 +2264,18 @@ cds_ranges$AIZ54182</code></pre>
 </div>
 <div id="genome-and-annotation-resources" class="section level1" number="4">
 <h1 number="4"><span class="header-section-number">4</span> Genome and annotation resources</h1>
-<p>Besides software, Bioconductor includes packages with data for model organisms, for example. The data is generally from these central repositories:</p>
+<p>Besides software, Bioconductor includes various types of data. An important type of data is data describing model organisms. This is either supplied through data packages or through the newer AnnotationHub system. It is generally derived from these central repositories:</p>
 <ul>
-<li>NCBI’s <a href="https://www.ncbi.nlm.nih.gov/refseq/">RefSeq</a></li>
+<li>The NCBI’s <a href="https://www.ncbi.nlm.nih.gov/refseq/">RefSeq</a></li>
 <li>The EBI’s <a href="https://ensembl.org/">Ensembl genome browser</a></li>
 <li>The <a href="https://genome.ucsc.edu/cgi-bin/hgGateway">UCSC genome browser</a></li>
 </ul>
+<p>UCSC was the original web-based genome browser. UCSC’s “KnownGene” gene annotations used to be the cutting edge gene annotation source, but UCSC now relies on other sources for gene annotations. Many <a href="https://genome.ucsc.edu/FAQ/FAQformat.html">file types</a> that remain important today were developed for the UCSC genome browser, such as “bed”, “bigWig”, and “2bit”.</p>
 <p>These organizations will generally obtain genome assemblies from the same ultimate sources. For example, all of the above use the Genome Reference Consortium’s GRCh38 DNA sequence for homo sapiens. UCSC calls this “hg38” but it is the same DNA sequence. These DNA sequences serve as a common frame of reference. However the three organizations above will differ on their exact set of gene and transcript annotations, and all use a different gene and transcript ID system.</p>
 <p>Genome assemblies are released infrequently. GRCh38 (hg38) was released in 2013. The previous assembly, GRCh37 (hg19) was released in 2009. Some people haven’t updated yet, you will find plenty of data using “hg19” positions! Gene and transcript annotations are updated far more frequently.</p>
 <p>As well as the chromosomes in the “primary assembly” a genome assembly may have further sequences, which may have been added after the initial release:</p>
 <ul>
-<li>patch sequences: small fixes that would change the sizes of chromosomes</li>
+<li>patch sequences: fixes that would change the sizes of chromosomes</li>
 <li>alt loci: a way to represent alleles, genetic diversity in the species</li>
 </ul>
 <div id="example-packages" class="section level2" number="4.1">
