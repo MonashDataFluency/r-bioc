@@ -507,6 +507,9 @@ length(ah)
 colnames( mcols(ah) )
 table( ah$rdataclass )
 
+# There is an interactive Shiny search interface
+display(ah)
+
 # query() searches for terms in an unstructured way
 records <- query(ah, c("Ensembl", "96", "Saccharomyces cerevisiae"))
 records
@@ -532,7 +535,12 @@ query(ah, c("OrgDb", "Saccharomyces cerevisiae"))
 sc_orgdb <- ah[["AH84129"]]
 columns(sc_orgdb)
 head( keys(sc_orgdb, "ENSEMBL") )
-select(sc_orgdb, "YFL039C", c("GENENAME", "DESCRIPTION"), keytype="ENSEMBL")
+select(sc_orgdb, "YFL039C", keytype="ENSEMBL", columns=c("GENENAME", "DESCRIPTION"))
+
+# Genes have short, easy to remember "symbols" (also often called "names") as well as IDs
+# We can use the OrgDb to look up gene IDs from symbols
+# Notice a problem here!
+select(sc_orgdb, c("ACT1", "COS2"), keytype="GENENAME",  columns=c("ENSEMBL"))
 ```
 
 

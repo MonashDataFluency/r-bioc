@@ -1898,6 +1898,9 @@ length(ah)
 colnames( mcols(ah) )
 table( ah$rdataclass )
 
+# There is an interactive Shiny search interface
+display(ah)
+
 # query() searches for terms in an unstructured way
 records &lt;- query(ah, c(&quot;Ensembl&quot;, &quot;96&quot;, &quot;Saccharomyces cerevisiae&quot;))
 records
@@ -1923,7 +1926,12 @@ query(ah, c(&quot;OrgDb&quot;, &quot;Saccharomyces cerevisiae&quot;))
 sc_orgdb &lt;- ah[[&quot;AH84129&quot;]]
 columns(sc_orgdb)
 head( keys(sc_orgdb, &quot;ENSEMBL&quot;) )
-select(sc_orgdb, &quot;YFL039C&quot;, c(&quot;GENENAME&quot;, &quot;DESCRIPTION&quot;), keytype=&quot;ENSEMBL&quot;)</code></pre>
+select(sc_orgdb, &quot;YFL039C&quot;, keytype=&quot;ENSEMBL&quot;, columns=c(&quot;GENENAME&quot;, &quot;DESCRIPTION&quot;))
+
+# Genes have short, easy to remember &quot;symbols&quot; (also often called &quot;names&quot;) as well as IDs
+# We can use the OrgDb to look up gene IDs from symbols
+# Notice a problem here!
+select(sc_orgdb, c(&quot;ACT1&quot;, &quot;COS2&quot;), keytype=&quot;GENENAME&quot;,  columns=c(&quot;ENSEMBL&quot;))</code></pre>
 </div>
 </div>
 <div id="example-finding-and-discovering-motifs" class="section level1" number="5">
