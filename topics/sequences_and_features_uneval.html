@@ -1928,7 +1928,7 @@ columns(sc_orgdb)
 head( keys(sc_orgdb, &quot;ENSEMBL&quot;) )
 select(sc_orgdb, &quot;YFL039C&quot;, keytype=&quot;ENSEMBL&quot;, columns=c(&quot;GENENAME&quot;, &quot;DESCRIPTION&quot;))
 
-# Genes have short, easy to remember &quot;symbols&quot; (also often called &quot;names&quot;) as well as IDs
+# As well as IDs, genes have short, easy to remember &quot;symbols&quot; (also often called &quot;names&quot;)
 # We can use the OrgDb to look up gene IDs from symbols
 # Notice a problem here!
 select(sc_orgdb, c(&quot;ACT1&quot;, &quot;COS2&quot;), keytype=&quot;GENENAME&quot;,  columns=c(&quot;ENSEMBL&quot;))</code></pre>
