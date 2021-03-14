@@ -159,7 +159,7 @@ On your desktop:
 | Read alignments | SAM, BAM(I) | GenomicAlignments::GAlignments, Rsamtools::BamFile(I) |
 | Numeric data along a genome | wiggle, bigWig(R) | list of numeric vectors, IRanges::RleList, rtracklayer::BigWigFile(R) |
 | Variant calls | VCF(I) | VariantAnnotation::VCF |
-| Numeric matrix (gene expression, etc) | CSV, HDF5(R) | matrix, HDF5Array, DelayedArray, SummarizedExperiment, SingleCellExperiment, ... |
+| Numeric matrix (gene expression, etc) | CSV, TSV, HDF5(R) | matrix, HDF5Array, DelayedArray, SummarizedExperiment, SingleCellExperiment, ... |
 
 (plus many more)
 
