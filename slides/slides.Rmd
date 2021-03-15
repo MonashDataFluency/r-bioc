@@ -153,13 +153,13 @@ On your desktop:
 
 | What|File types|R types|
 | --- | --- | --- |
-| DNA sequence | FASTA, FASTQ, 2bit(R) | Biostrings::DNAStringSet, BSgenome(R), rtracklayer::TwoBitFile(R) |
+| DNA sequence | FASTA(I), FASTQ, 2bit(R) | Biostrings::DNAStringSet, BSgenome(R), rtracklayer::TwoBitFile(R) |
 | Amino acid sequence | FASTA | Biostrings::AAStringSet |
-| Genomic features | GTF(I), GFF(I), BED(I) | GenomicRanges::GRanges, GenomicFeatures::TxDb, ensembldb::EnsDb |
+| Genomic features | GTF(I), GFF(I), BED(I) | GenomicRanges::GRanges, GenomicFeatures::TxDb(R), ensembldb::EnsDb(R) |
 | Read alignments | SAM, BAM(I) | GenomicAlignments::GAlignments, Rsamtools::BamFile(I) |
 | Numeric data along a genome | wiggle, bigWig(R) | list of numeric vectors, IRanges::RleList, rtracklayer::BigWigFile(R) |
 | Variant calls | VCF(I) | VariantAnnotation::VCF |
-| Numeric matrix (gene expression, etc) | CSV, TSV, HDF5(R) | matrix, HDF5Array, DelayedArray, SummarizedExperiment, SingleCellExperiment, ... |
+| Numeric matrix (gene expression, etc) | CSV, TSV, HDF5(R) | matrix, HDF5Array(R), DelayedArray(R), SummarizedExperiment(R), SingleCellExperiment(R), ... |
 
 (plus many more)
 
