@@ -126,8 +126,6 @@ Data analysis usually occurs in the context of:
 
 For model organisms such as human and mouse, there is usually a genome assembly that is updated infrequently, and then several sets of gene annotations (Ensembl, RefSeq, UCSC) which are updated much more frequently.
 
-<img src="../figures/igv.png" width="1000">
-
 
 ## Genome browsers
 
