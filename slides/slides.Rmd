@@ -99,7 +99,7 @@ Using Bioconductor will mean building familiarity with further types:
 
 ## 
 
-### 👀 ✋&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;S3 types
+### ✋&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;S3 types
 
 Most base R packages use "S3" types. Data frames, tibbles, and linear model fits are examples of these.
 
@@ -108,7 +108,7 @@ Most base R packages use "S3" types. Data frames, tibbles, and linear model fits
 
 <br>
 
-### 🕶️ 👉👉&nbsp;&nbsp;S4 types
+### 👉👉&nbsp;&nbsp;S4 types
 
 Bioconductor uses "S4" types, including it's own data frame (`DataFrame`) and list types (`SimpleList`, `GRangesList`, etc etc). If stuck, can almost always convert to base R types with `as.data.frame`, `as.list`, `as.character`, `as.numeric`.
 
@@ -127,12 +127,20 @@ Bioconductor uses "S4" types, including it's own data frame (`DataFrame`) and li
 
 ## Reference genomes and annotations
 
-Data analysis usually occurs in the context of:
+"High-throughput" biological data analysis usually occurs in the context of:
 
 * a genome assembly
 * gene and transcript annotations
 
-For model organisms such as human and mouse, there is usually a genome assembly that is updated infrequently, and then several sets of gene annotations (Ensembl, RefSeq, UCSC) which are updated much more frequently.
+For model organisms such as human and mouse there is a genome assembly most people use, updated infrequently, and several slightly different sets of gene and transcript annotations from different sources, updated much more frequently.
+
+<br>
+
+Available from:
+
+* <span style="font-size: 200%">🇺🇸</span> The NCBI's [RefSeq](https://www.ncbi.nlm.nih.gov/refseq/)
+* <span style="font-size: 200%">🇪🇺</span> The EBI's [Ensembl genome browser](https://ensembl.org/)
+* <span style="font-size: 200%"></span>The [UCSC genome browser](https://genome.ucsc.edu/cgi-bin/hgGateway)
 
 
 ## Genome browsers
