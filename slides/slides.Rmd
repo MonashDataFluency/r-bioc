@@ -81,22 +81,18 @@ eg for ChIP-seq, ATAC-seq, variant calling
 Can do a lot in R with vectors and data frames.
 
 Using Bioconductor will mean building familiarity with further types:
+<br>
+<br>
 
 * `matrix`, `list`
 <br>
 <br>
 
-* `DNAString`, `DNAStringSet`
-* `GRanges`
+* `DNAString`, `DNAStringSet`, `GRanges` <span style="color: #00aaaa">&larr; focus for today</span>
 <br>
 <br>
 
-* `Seqinfo`
-* `TxDb`, `EnsDb`
-<br>
-<br>
-
-* `OrgDb`, `VCF`, `SummarizedExperiment`, `DelayedArray`, ...
+... `Seqinfo`, `TxDb`, `EnsDb`, `OrgDb`, `VCF`, `SummarizedExperiment`, `DelayedArray`, ...
 
 ## S4 types
 
