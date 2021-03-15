@@ -3238,10 +3238,10 @@ padding: 0.25em;
 <p>Bioconductor is repository for R packages relating to high-throughput biology (shotgun sequencing, microarrays, etc).</p>
 
 <ul>
-<li>Started in 2001, has developed alongside technology and growth of data</li>
-<li>Core set of types promotes interoperation<br>(Not just tidy data frames! Types have evolved over time to meet new needs.)</li>
-<li>Twice yearly release schedule</li>
-<li>Many contributors, but fairly good coding and documentation standards</li>
+<li><p>Started in 2001, has developed alongside technology and growth of data</p></li>
+<li><p>Core set of types promotes interoperation<br>(Not just tidy data frames! Types have evolved over time to meet new needs.)</p></li>
+<li><p>Twice yearly release schedule</p></li>
+<li><p>Many contributors, but fairly good coding and documentation standards</p></li>
 </ul>
 
 </article></slide><slide class=""><hgroup><h2>Flavours of R</h2></hgroup><article  class="smaller " id="flavours-of-r">
@@ -3270,7 +3270,7 @@ BiocManager::install()</pre>
 
 </article></slide><slide class=""><hgroup><h2>What Bioconductor is for</h2></hgroup><article  class="smaller " id="what-bioconductor-is-for">
 
-<p><strong>Peaks, regions, motifs in genome</strong> <span style="color: #00aaaa">
+<p><strong>Genome and genome features: genes, regions, motifs, peaks, primers, SNPs</strong> <span style="color: #00aaaa">
 ← focus for today</span></p>
 
 <p>eg for ChIP-seq, ATAC-seq, variant calling</p>
@@ -3279,24 +3279,24 @@ BiocManager::install()</pre>
 <li><code>Biostrings</code>, <code>GenomicRanges</code>, <code>GenomicFeatures</code>, … <br></li>
 </ul>
 
-<p><strong>Differential expression analysis from microarray or RNA-seq</strong></p>
+<p><strong>Differential gene expression from microarray or RNA-seq</strong></p>
 
 <ul>
 <li><code>SummarizedExperiment</code>, <code>limma</code>, <code>edgeR</code>, <code>DESeq2</code>, …</li>
 <li>Further packages to normalize, impute, batch correct, check quality, … <br></li>
 </ul>
 
-<p><strong>Visualization</strong></p>
-
-<ul>
-<li><code>ComplexHeatmap</code>, <code>Gviz</code>, <code>ggbio</code>, … <br></li>
-</ul>
-
-<p><strong>Single-cell sequencing</strong></p>
+<p><strong>Single-cell gene expression, etc</strong></p>
 
 <ul>
 <li><code>SingleCellExperiment</code>, <code>scater</code>, <code>scran</code>, …</li>
 <li><a href='http://bioconductor.org/books/release/OSCA/' title=''>&ldquo;Orchestrating Single-Cell Analysis with Bioconductor&rdquo; book</a> <br></li>
+</ul>
+
+<p><strong>Visualization</strong></p>
+
+<ul>
+<li><code>ComplexHeatmap</code>, <code>Gviz</code>, <code>ggbio</code>, … <br></li>
 </ul>
 
 <p><strong>Statistical methods for \(p \gg n\) data</strong></p>
@@ -3317,7 +3317,9 @@ BiocManager::install()</pre>
 
 <p>… <code>Seqinfo</code>, <code>TxDb</code>, <code>EnsDb</code>, <code>OrgDb</code>, <code>VCF</code>, <code>SummarizedExperiment</code>, <code>DelayedArray</code>, …</p>
 
-</article></slide><slide class=""><hgroup><h2>S4 types</h2></hgroup><article  class="smaller " id="s4-types">
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  class="smaller " id="section">
+
+<h3>👀 ✋      S3 types</h3>
 
 <p>Most base R packages use &ldquo;S3&rdquo; types. Data frames, tibbles, and linear model fits are examples of these.</p>
 
@@ -3326,7 +3328,11 @@ BiocManager::install()</pre>
 <li>if necessary, peek inside with <code>$</code></li>
 </ul>
 
-<p><br> Bioconductor uses &ldquo;S4&rdquo; types, including it’s own data frame (<code>DataFrame</code>) and list types (<code>SimpleList</code>, <code>GRangesList</code>, etc etc). If stuck, can almost always convert to base R types with <code>as.data.frame</code>, <code>as.list</code>, <code>as.character</code>, <code>as.numeric</code>.</p>
+<p><br></p>
+
+<h3>🕶️ 👉👉     S4 types</h3>
+
+<p>Bioconductor uses &ldquo;S4&rdquo; types, including it’s own data frame (<code>DataFrame</code>) and list types (<code>SimpleList</code>, <code>GRangesList</code>, etc etc). If stuck, can almost always convert to base R types with <code>as.data.frame</code>, <code>as.list</code>, <code>as.character</code>, <code>as.numeric</code>.</p>
 
 <ul>
 <li>use accessor functions such as <code>seqnames</code>, <code>start</code>, <code>end</code>, <code>width</code>, <code>nchars</code></li>
@@ -3335,7 +3341,7 @@ BiocManager::install()</pre>
 
 <p><br> <a href='https://stuartlee.org/2019/07/09/s4-short-guide/' title=''>Stuart Lee’s guide to S4 for the perplexed</a></p>
 
-</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  class="smaller " id="section">
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  class="smaller " id="section-1">
 
 <p>(do workshop)</p>
 
@@ -3449,7 +3455,7 @@ conda install -c bioconda meme</pre>
 <li>Doesn’t need admin rights.</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  class="smaller " id="section-1">
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  class="smaller " id="section-2">
 
 <p>(continue workshop)</p>
 

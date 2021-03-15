@@ -12,8 +12,11 @@ output:
 Bioconductor is repository for R packages relating to high-throughput biology (shotgun sequencing, microarrays, etc).
 
 * Started in 2001, has developed alongside technology and growth of data
+
 * Core set of types promotes interoperation<br>(Not just tidy data frames! Types have evolved over time to meet new needs.)
+
 * Twice yearly release schedule
+
 * Many contributors, but fairly good coding and documentation standards
 
 ## Flavours of R
@@ -47,28 +50,28 @@ BiocManager::install()
 
 ## What Bioconductor is for
 
-**Peaks, regions, motifs in genome** <span style="color: #00aaaa">&larr; focus for today</span>
+**Genome and genome features: genes, regions, motifs, peaks, primers, SNPs** <span style="color: #00aaaa">&larr; focus for today</span>
 
 eg for ChIP-seq, ATAC-seq, variant calling
 
 * `Biostrings`, `GenomicRanges`, `GenomicFeatures`, ...
 <br>
 
-**Differential expression analysis from microarray or RNA-seq**
+**Differential gene expression from microarray or RNA-seq**
 
 * `SummarizedExperiment`, `limma`, `edgeR`, `DESeq2`, ...
 * Further packages to normalize, impute, batch correct, check quality, ...
 <br>
 
-**Visualization**
-
-* `ComplexHeatmap`, `Gviz`, `ggbio`, ...
-<br>
-
-**Single-cell sequencing**
+**Single-cell gene expression, etc**
 
 * `SingleCellExperiment`, `scater`, `scran`, ...
 * ["Orchestrating Single-Cell Analysis with Bioconductor" book](http://bioconductor.org/books/release/OSCA/)
+<br>
+
+**Visualization**
+
+* `ComplexHeatmap`, `Gviz`, `ggbio`, ...
 <br>
 
 **Statistical methods for $p \gg n$ data**
@@ -94,7 +97,9 @@ Using Bioconductor will mean building familiarity with further types:
 
 ... `Seqinfo`, `TxDb`, `EnsDb`, `OrgDb`, `VCF`, `SummarizedExperiment`, `DelayedArray`, ...
 
-## S4 types
+## 
+
+### 👀 ✋&nbsp; &nbsp;&nbsp;&nbsp; S3 types
 
 Most base R packages use "S3" types. Data frames, tibbles, and linear model fits are examples of these.
 
@@ -102,6 +107,9 @@ Most base R packages use "S3" types. Data frames, tibbles, and linear model fits
 * if necessary, peek inside with `$`
 
 <br>
+
+### 🕶️ 👉👉 &nbsp;&nbsp;&nbsp; S4 types
+
 Bioconductor uses "S4" types, including it's own data frame (`DataFrame`) and list types (`SimpleList`, `GRangesList`, etc etc). If stuck, can almost always convert to base R types with `as.data.frame`, `as.list`, `as.character`, `as.numeric`.
 
 * use accessor functions such as `seqnames`, `start`, `end`, `width`, `nchars`
