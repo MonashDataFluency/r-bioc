@@ -51,7 +51,14 @@ Aim for this session is to cover fundamentals of Bioconductor, so you can look u
 - More visual explanation?
 
 
-
-
-
+# 2021-03-16, 2pm-5pm, Zoom, 1 instructor + 2 helpers
+- Of 40 registrants, ~20 turned up. Next time, go for larger number of registrants.
+- People dropped out, down to ~10 by the end. Understandable, the material is what it is.
+- Added some more material on IGV and data sources.
+- Used two 10 minute breaks. Seems about right.
+- Didn't do section 5 on motif finding.
+- Too much material, but people brains seemed pretty full, so maybe best to keep current length.
+- Class was fairly unresponsive, but did engage with the challenges. Morning sessions may be better?
+- flank and resize arguments should be explained in detail before the start/stop codon challenge.
+- Told people to use their own computer for preference. A couple of people had problems (Windows and Mac). Maybe emphasize using Rstudio Cloud if any install problems.
 
