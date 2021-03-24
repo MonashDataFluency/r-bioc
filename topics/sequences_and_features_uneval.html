@@ -1761,20 +1761,17 @@ seq_stop &lt;- getSeq(seqs, feat_stop)
 translate(seq_stop)</code></pre>
 <p><code>resize</code> can fix either the <code>fix=&quot;start&quot;</code> or <code>fix=&quot;end&quot;</code> of the sequence.</p>
 <p><code>flank</code> can be either flank the start (<code>start=TRUE</code>) or end (<code>start=FALSE</code>).</p>
-<pre><code># input
-#                         (----)
-#                         .    .
-# resize                  (--------)
-# resize(fix=&quot;end&quot;)   (--------)
-#                         .    .
-# flank              (---).    .
-# flank(start=F)          .    .(---)
-#                         .    .
-# promoters          (------)  .
-#                         .    .
-# narrow                  .(--).
-#                         .    .
-# shift (ignores strand!) .  (----)</code></pre>
+<pre><code>#                                  5&#39;     3&#39;
+# input                            -------&gt;
+#                                  .      .
+# resize(input, n, fix=&quot;start&quot;)    --&gt;    .
+# resize(input, n, fix=&quot;end&quot;)      .    --&gt;
+#                                  .      .
+# flank(input, n, start=TRUE)   --&gt;.      .
+# flank(input, n, start=FALSE)     .      .--&gt;
+#                                  .      .
+# promoters(input, n1,n2)     --------&gt;   .
+#</code></pre>
 </div>
 <div id="inter-range" class="section level2" number="3.2">
 <h2 number="3.2"><span class="header-section-number">3.2</span> Inter-range</h2>
@@ -1798,18 +1795,18 @@ findOverlaps(query, features, ignore.strand=FALSE)</code></pre>
 <li><code>setdiff</code> - subtracts one set of features from another, could be used with range on a set of exons to get introns. Might need to use <code>GenomicRanges::setdiff</code> if also using <code>dplyr</code>.</li>
 </ul>
 <pre><code># input
-#         (--------)
-#              (----------------)
-#                      (-----)
-#                                     (---)
+#         ---------&gt;
+#              -----------------&gt;
+#                      ------&gt;
+#                                     ----&gt;
 #                                     
-# range   (-------------------------------)
+# range   --------------------------------&gt;
 # 
-# reduce  (----------------------)    (---)
+# reduce  -----------------------&gt;    ----&gt;
 # 
-# disjoin (---)(---)(-)(-----)(--)    (---)
+# disjoin ----&gt;----&gt;--&gt;------&gt;---&gt;    ----&gt;
 # 
-# setdiff(range(input),input)     (--)</code></pre>
+# setdiff(range(input),input)     ---&gt;</code></pre>
 </div>
 <div id="challenge-1" class="section level2 challenge" number="3.3">
 <h2 class="challenge" number="3.3"><span class="header-section-number">3.3</span> Challenge</h2>
@@ -1817,7 +1814,7 @@ findOverlaps(query, features, ignore.strand=FALSE)</code></pre>
 <p>The start codon is the first three bases of the CDS, and the stop codon is the three bases following the end of the CDS.</p>
 <p>Hint: Recall that we could get all CDS ranges with:</p>
 <pre class="r"><code>cds &lt;- subset(features, type == &quot;CDS&quot;)</code></pre>
-<p>Hint: Use <code>flank()</code> and <code>resize()</code> to manipulate these ranges.</p>
+<p>Hint: Use <code>resize(..., ..., fix=&quot;start&quot;)</code> and <code>flank(..., ..., start=FALSE)</code> to manipulate these ranges.</p>
 <p>Hint: Use <code>table()</code> to count occurrences of different strings.</p>
 </div>
 <div id="transcript-database-objects" class="section level2" number="3.4">
@@ -1983,7 +1980,7 @@ probs &lt;- prop.table(letter_counts[1:4,], 2)
 seqLogo(probs, ic.scale=FALSE)
 seqLogo(probs)</code></pre>
 <p>A popular suite of motif discovery programs is <a href="http://meme-suite.org/">MEME</a>. We can use MEME after writing the sequences to a file.</p>
-<pre class="r"><code>writeXStringSet(initiation_seqs, &quot;seqs.fasta&quot;)</code></pre>
+<pre class="r"><code>writeXStringSet(initiation_seqs, &quot;init_seqs.fasta&quot;)</code></pre>
 <p>MEME is command-line software. Bioinformatics software, including MEME, often requires a UNIX environment such as Linux or Mac OS. Windows users may need to obtain access to a Linux server or run Linux in a “container”. To run MEME we need to type commands in a “terminal” window. This is a whole other workshop!</p>
 <p>Bioinformatics software is often most easily installed using <a href="https://docs.conda.io/projects/conda/en/latest/user-guide/install/">conda</a>. To minimize the number of default packages installed, use “Miniconda”. Once you have installed Miniconda, you can activate conda and install MEME with:</p>
 <pre><code>### in a terminal ###
@@ -1991,7 +1988,7 @@ seqLogo(probs)</code></pre>
 # conda install -c bioconda meme</code></pre>
 <p>Now we can run <code>meme</code> with:</p>
 <pre><code>### in a terminal ###
-# meme -dna seqs.fasta</code></pre>
+# meme -dna init_seqs.fasta</code></pre>
 <p>Running <code>meme</code> will produce <a href="meme_out/meme.html">this output</a>.</p>
 </div>
 <div id="challenge-2" class="section level2 challenge" number="5.3">

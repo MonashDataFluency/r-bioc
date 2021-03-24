@@ -312,20 +312,17 @@ translate(seq_stop)
 `flank` can be either flank the start (`start=TRUE`) or end (`start=FALSE`).
 
 ```
-# input
-#                         (----)
-#                         .    .
-# resize                  (--------)
-# resize(fix="end")   (--------)
-#                         .    .
-# flank              (---).    .
-# flank(start=F)          .    .(---)
-#                         .    .
-# promoters          (------)  .
-#                         .    .
-# narrow                  .(--).
-#                         .    .
-# shift (ignores strand!) .  (----)
+#                                  5'     3'
+# input                            ------->
+#                                  .      .
+# resize(input, n, fix="start")    -->    .
+# resize(input, n, fix="end")      .    -->
+#                                  .      .
+# flank(input, n, start=TRUE)   -->.      .
+# flank(input, n, start=FALSE)     .      .-->
+#                                  .      .
+# promoters(input, n1,n2)     -------->   .
+#
 ```
 
 
@@ -360,18 +357,18 @@ With `findOverlaps`, we can use genomic location as the key when *joining* dispa
 
 ```
 # input
-#         (--------)
-#              (----------------)
-#                      (-----)
-#                                     (---)
+#         --------->
+#              ----------------->
+#                      ------>
+#                                     ---->
 #                                     
-# range   (-------------------------------)
+# range   -------------------------------->
 # 
-# reduce  (----------------------)    (---)
+# reduce  ----------------------->    ---->
 # 
-# disjoin (---)(---)(-)(-----)(--)    (---)
+# disjoin ---->---->-->------>--->    ---->
 # 
-# setdiff(range(input),input)     (--)
+# setdiff(range(input),input)     --->
 ```
 
 
@@ -387,7 +384,7 @@ Hint: Recall that we could get all CDS ranges with:
 cds <- subset(features, type == "CDS")
 ```
 
-Hint: Use `flank()` and `resize()` to manipulate these ranges.
+Hint: Use `resize(..., ..., fix="start")` and `flank(..., ..., start=FALSE)` to manipulate these ranges.
 
 Hint: Use `table()` to count occurrences of different strings.
 
@@ -614,7 +611,7 @@ seqLogo(probs)
 A popular suite of motif discovery programs is [MEME](http://meme-suite.org/). We can use MEME after writing the sequences to a file.
 
 ```{r}
-writeXStringSet(initiation_seqs, "seqs.fasta")
+writeXStringSet(initiation_seqs, "init_seqs.fasta")
 ```
 
 MEME is command-line software. Bioinformatics software, including MEME, often requires a UNIX environment such as Linux or Mac OS. Windows users may need to obtain access to a Linux server or run Linux in a "container". To run MEME we need to type commands in a "terminal" window. This is a whole other workshop!
@@ -631,7 +628,7 @@ Now we can run `meme` with:
 
 ```
 ### in a terminal ###
-# meme -dna seqs.fasta
+# meme -dna init_seqs.fasta
 ```
 
 Running `meme` will produce [this output](meme_out/meme.html).

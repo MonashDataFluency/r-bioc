@@ -220,20 +220,17 @@ seq_stop <- getSeq(seqs, feat_stop)
 translate(seq_stop)
 
 
-# input
-#                         (----)
-#                         .    .
-# resize                  (--------)
-# resize(fix="end")   (--------)
-#                         .    .
-# flank              (---).    .
-# flank(start=F)          .    .(---)
-#                         .    .
-# promoters          (------)  .
-#                         .    .
-# narrow                  .(--).
-#                         .    .
-# shift (ignores strand!) .  (----)
+#                                  5'     3'
+# input                            ------->
+#                                  .      .
+# resize(input, n, fix="start")    -->    .
+# resize(input, n, fix="end")      .    -->
+#                                  .      .
+# flank(input, n, start=TRUE)   -->.      .
+# flank(input, n, start=FALSE)     .      .-->
+#                                  .      .
+# promoters(input, n1,n2)     -------->   .
+#
 
 
 # 3.2 Inter-range ----
@@ -253,18 +250,18 @@ findOverlaps(query, features, ignore.strand=FALSE)
 
 
 # input
-#         (--------)
-#              (----------------)
-#                      (-----)
-#                                     (---)
+#         --------->
+#              ----------------->
+#                      ------>
+#                                     ---->
 #
-# range   (-------------------------------)
+# range   -------------------------------->
 #
-# reduce  (----------------------)    (---)
+# reduce  ----------------------->    ---->
 #
-# disjoin (---)(---)(-)(-----)(--)    (---)
+# disjoin ---->---->-->------>--->    ---->
 #
-# setdiff(range(input),input)     (--)
+# setdiff(range(input),input)     --->
 
 
 # 3.3 Challenge ----
@@ -280,7 +277,8 @@ findOverlaps(query, features, ignore.strand=FALSE)
 cds <- subset(features, type == "CDS")
 
 # 
-# Hint: Use `flank()` and `resize()` to manipulate these ranges.
+# Hint: Use `resize(..., ..., fix="start")` and `flank(..., ...,
+# start=FALSE)` to manipulate these ranges.
 # 
 # Hint: Use `table()` to count occurrences of different strings.
 # 
@@ -431,7 +429,7 @@ seqLogo(probs, ic.scale=FALSE)
 seqLogo(probs)
 
 
-writeXStringSet(initiation_seqs, "seqs.fasta")
+writeXStringSet(initiation_seqs, "init_seqs.fasta")
 
 
 ### in a terminal ###
@@ -440,7 +438,7 @@ writeXStringSet(initiation_seqs, "seqs.fasta")
 
 
 ### in a terminal ###
-# meme -dna seqs.fasta
+# meme -dna init_seqs.fasta
 
 
 # 5.3 Challenge ----
