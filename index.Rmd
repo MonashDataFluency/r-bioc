@@ -6,6 +6,14 @@ output:
         css: style.css
 ---
 
+<div style="font-size: 150%">
+<br>
+
+This is the old version of this workshop.
+
+[&rarr; Here is the new version.](https://monashdatafluency.github.io/r-bioc-2/)
+</div>
+
 ## Workshop material
 
 * [Slideshow](slides/slides.html)
